@@ -1,0 +1,1555 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={A second antipodal 840-point kissing configuration in R12,
+  slice-closure theorems, and the architecture frontier at 842},
+  pdfauthor={Kevin Russell (ProjectForty2 / CHRONOS agent)}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\DeclareMathOperator{\lspan}{span}
+
+\title{A second antipodal $840$-point kissing configuration in $\RR^{12}$,
+slice-closure theorems,\\ and the architecture frontier at $842$}
+\author{Kevin Russell\thanks{%
+Correspondence: \texttt{kevinrussell@gmail.com}. Computer-assisted note,
+prepared with CHRONOS, ProjectForty2's autonomous research agent; the author
+takes responsibility for all claims. The configuration was found by
+large-scale independent-set search (KaMIS \cite{KaMIS17}) over an exactly
+generated conflict graph; every \emph{certified} claim in this note reduces
+to integer or $\QQ(\sqrt2)$ arithmetic that the accompanying stdlib-only
+checker recomputes from the raw witness (Appendix~\ref{sec:repro}), and
+every \emph{solver-status} claim (CP-SAT \textsc{optimal}, certified
+Lov\'asz $\vartheta$) is identified as such in the text and shipped with its
+receipt. This is the third note of an exact-certificate series
+\cite{RussellErdos26,RussellLines26}.}\\[3pt]
+{\normalsize ProjectForty2 --- CHRONOS agent}}
+\date{July 2026\\[2pt]{\small Zenodo: DOI to be minted on deposit}}
+%%CHECK: DOI placeholder --- mint the Zenodo DOI at deposit time and bake it
+%%CHECK  into this \date line exactly as in the predecessor note.
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We exhibit a new antipodal kissing configuration of $840$ points ($420$
+lines through the origin of $\RR^{12}$ at pairwise angles at least
+$60^\circ$): the $132$ root lines $(e_a\pm e_b)/\sqrt2$ together with $288$
+half-integer lines with entries $\pm\tfrac1{2\sqrt2}$ on eight-coordinate
+supports, in the even sign class, spread over $15$ partial cells. All
+$\binom{420}{2}=87{,}990$ pairwise inner products are certified
+$|\langle u,v\rangle|\le 1/2$ in exact arithmetic by two independent
+routes, of which the stdlib checker ships with this note's repository;
+$20{,}464$ pairs ($23.3\%$) meet the bound with equality, so the
+configuration is extremely rigid. A packing-independent counting theorem
+proves it is \emph{not} isometric to the classical $840$-point
+configuration ($24$ axis vectors plus $816$ weight-$4$ vectors over a
+maximum quadruple packing), nor to any configuration of $12$ axes plus $51$
+whole weight-$4$ cells: the new inner-product histogram
+$\{0\!:\!35{,}142,\ \tfrac14\!:\!32{,}384,\ \tfrac12\!:\!20{,}464\}$ forces
+a block-pair statistic $P_2\ge 564$ while matching it requires $P_2=563$.
+An exact $\QQ(\sqrt2)$ rotation certificate nevertheless shows the new
+configuration is a blockwise $45^\circ$ rotation of a $12$-axes $+$
+$47$-whole $+$ $8$-half weight-$4$-cell configuration: it evades the known
+$420$ but not the integer weight-$4$ world, and is (to our knowledge) the
+first $420$-line configuration that uses \emph{partial} cells. We prove a
+slice-closure theorem, whose single computational input is a CP-SAT
+\textsc{optimal} certificate: for every one of the $10{,}395$ pairings of the $12$
+coordinates into $6$ pairs, the root lines together with the pair-aligned
+half-integer cells embed isometrically into the integer world, so such
+``slice'' configurations cap at exactly $420$ lines and pair-aligned
+half-integer configurations cap at exactly $288$. An exact CP-SAT ladder
+then proves (\textsc{optimal} at every node, full orbit enumeration through
+level $3$) that any $289$-line half-integer configuration --- which would
+yield $421$ lines, $842$ points, and a world-record kissing configuration
+--- must use at least $4$ cells foreign to \emph{every} pairing; extensive
+exact search at levels $4$--$6$ and beyond found none. We state the honest
+scope precisely: $\alpha(\text{half-integer world})=288$ is strongly
+evidenced but not globally proven. A structural attack on the remaining gap
+then yields four theorems: an exact structure lemma for conflicting cell
+pairs (the bipartite conflict graph at support overlaps $5/6/7$ is
+$16\times K_{4,4}$, $32\times K_{2,2}$, and the folded-$7$-cube unit-ball
+bipartite graph); a closure of the even-overlap side proving (given the
+same solver-certified slice cap) that the
+missing \emph{odd-overlap lemma} is \emph{equivalent} to
+$\alpha(U)=288$; an LP barrier theorem --- no family of valid occupancy
+inequalities with at most $109$ positive-support cells each (which includes
+every pair, triple, localization, slice, and ladder cut we possess) can
+certify $\alpha(U)\le 289$; and a star reduction
+$\alpha(U_{12})\le 3\,\alpha(U_{11})$ that passes the barrier and is
+exactly tight on the witness, reducing both the global closure and the
+record hunt to a single question in a world three times smaller: is
+$\alpha(U_{11})\le 96$? Finally, a $\vartheta$-certified
+architecture sweep closes every enumerable frame family in dimensions $11$
+and $12$ far below the record thresholds and exposes a structural
+anti-correlation: the richer the frame, the thinner the weight-$4$ base it
+leaves behind. Whether $\RR^{12}$ contains an antipodal $842$-point kissing
+configuration ($421$ lines; our prior LP ceiling is $614$ lines
+\cite{RussellLines26}) remains open.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+
+The kissing number $k(d)$ is the maximum number of unit spheres that can
+simultaneously touch a central unit sphere in $\RR^d$; equivalently, the
+maximum number of unit vectors with pairwise angles at least $60^\circ$.
+In $\RR^{12}$ the classical record configuration has $840$ points
+(\cite[Table~1.5]{SPLAG}; the kissing-number survey \cite{BDM15} confirms
+that the $n\le 24$ lower-bound table, including $840$ at $n=12$, follows
+SPLAG Table~1.5), and the record was recently raised to $k(12)\ge 841$ by
+Takhanov, Assylbekov and Yun \cite{TAY26}, who found room for an $841$st
+sphere by a global rebuild of an $840$-point base; the best upper bound is
+$k(12)\le 1355$ \cite{deLaatLeijenhorst24}. Neighboring dimension $11$ has
+seen the same burst of computer-search activity ($k(11)\ge 593$ by
+AlphaEvolve \cite{AlphaEvolve25}, then $k(11)\ge 604$ by Bianchi et
+al.~\cite{Bianchi26}).
+
+A kissing configuration is \emph{antipodal} if it is closed under
+$x\mapsto-x$; antipodal configurations of $2N$ points are the same thing as
+systems of $N$ lines through the origin with pairwise angles at least
+$60^\circ$ (coherence $|\cos|\le 1/2$). The $840$-point classical record
+configuration is antipodal ($420$ lines); the $841$-point record of
+\cite{TAY26} is \emph{not}: an odd-cardinality set cannot be closed under
+$x\mapsto-x$, and our direct check of coordinates recovered from the
+authors' published Gram data --- a floating-point side observation, not
+part of this note's certificate set --- finds no exactly antipodal pair
+(minimum pairwise cosine $-0.99999999$; the global rebuild retains
+hundreds of \emph{near}-antipodal pairs but exact antipodality appears to
+be broken).
+An antipodal configuration with $842$ points is exactly a system of $421$
+lines at coherence $1/2$; since $842>841$, \emph{any} such system would be
+a world-record kissing configuration. In our predecessor note
+\cite{RussellLines26} we proved the two-point LP ceiling
+$N_{60}(12)\le 614$ in exact rational arithmetic --- so an antipodal record
+attempt at $421$ lines is not excluded by any known ceiling; the gap
+between the realized $420$ and the LP $614$ is enormous. The present note
+documents what we found when we went looking for the $421$st line.
+
+The contributions are:
+\begin{enumerate}
+\item \textbf{A new $420$-line configuration} (Section~\ref{sec:config}),
+found by independent-set search over an exactly generated mixed-alphabet
+conflict graph and verified twice in exact arithmetic
+(Theorem~\ref{thm:exists}). Its composition --- $132$ root lines plus
+$288$ half-integer lines over $15$ \emph{partial} cells, zero axes, zero
+weight-$4$ lines --- is structurally unlike the classical $420$.
+\item \textbf{A novelty theorem} (Section~\ref{sec:novelty}): a
+packing-independent counting argument (Theorem~\ref{thm:novelty}) proving
+non-isometry to the classical configuration and to every configuration of
+its combinatorial type. The proof is a five-line double count; no solver
+is involved.
+\item \textbf{A rotation certificate and slice-closure theorems}
+(Section~\ref{sec:rotation}): an exact $\QQ(\sqrt2)$ isometry mapping the
+new configuration into the integer weight-$4$ world
+(Theorem~\ref{thm:rotation}), and a closure theorem for every coordinate
+pairing (Theorem~\ref{thm:slice}) showing that ``slice'' configurations cap
+at exactly $420$ lines. The new configuration therefore ties the record
+\emph{within} a capped world; any improvement must mix across slices.
+\item \textbf{An exact exclusion ladder} (Section~\ref{sec:ladder}):
+CP-SAT proofs, \textsc{optimal} at every node with full orbit enumeration
+through level $3$, that a $289$-line half-integer configuration must sit at
+least $4$ cells foreign to every one of the $10{,}395$ pairings
+(Theorem~\ref{thm:ladder}), together with the (negative) outcome of
+extensive exact search beyond the proven levels. We state exactly what is
+proven and what is only searched.
+\item \textbf{The odd-overlap frontier} (Section~\ref{sec:odd}): an exact
+structure lemma for every conflicting cell pair
+(Theorem~\ref{thm:structure}) with machine-tight pair and triple caps; a
+proof that configurations whose occupied cells overlap pairwise
+\emph{evenly} cap at $288$ (Theorem~\ref{thm:evenclosure}), repairing a
+false cell-level claim in our own campaign roadmap; the resulting
+equivalence \emph{odd-overlap lemma $\Leftrightarrow$ $\alpha(U)=288$}
+(Corollary~\ref{cor:equiv}); an LP barrier theorem
+(Theorem~\ref{thm:barrier}) proving that no aggregation of small-support
+valid inequalities --- including every cut family in this note --- can
+certify $\alpha(U)\le 289$; and a star reduction
+(Theorem~\ref{thm:star}) to the $10{,}560$-line $U_{11}$ world that passes
+the barrier and is exactly tight on the witness. The paper's headline open
+problem becomes: \emph{is $\alpha(U_{11})\le 96$?}
+\item \textbf{An architecture-exhaustion sweep} (Section~\ref{sec:sweep}):
+$\vartheta$-certified and ILP-exact closures of every enumerable frame
+family we could write down in dimensions $11$ and $12$, all far below the
+record thresholds, and the structural anti-correlation between frame
+richness and weight-$4$ base capacity that explains the pattern.
+\end{enumerate}
+Section~\ref{sec:disc} collects open problems, chief among them the
+$U_{11}$ question $\alpha(U_{11})\le 96$ --- to which Section~\ref{sec:odd}
+reduces both the global closure of the half-integer world \emph{and} the
+antipodal record hunt --- and the status of $842$.
+
+Throughout, ``certified'' means: recomputed from the raw witness by the
+stdlib-only checker in exact integer or $\QQ(\sqrt2)$ arithmetic
+(\texttt{make verify}, Appendix~\ref{sec:repro}); no floating point on the
+certified path, and no claimed value echoed from a file. Solver statuses
+(CP-SAT \textsc{optimal}, certified $\vartheta$, KaMIS incumbents) are
+reported as such.
+
+\section{Four alphabets and one conflict graph}\label{sec:alphabets}
+
+All configurations in this note live in the union of four line alphabets in
+$\RR^{12}$, each with an integer representative:
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+alphabet & unit representative & integer rep.\ $g$ & $N=\langle g,g\rangle$ & \#lines \\
+\midrule
+$A$ (axes) & $e_i$ & $e_i$ & $1$ & $12$ \\
+$W_2$ (roots) & $(e_a\pm e_b)/\sqrt2$ & $e_a\pm e_b$ & $2$ & $132$ \\
+$W_4$ (weight-$4$) & $\tfrac12\sum_{i\in B}s_ie_i$, $|B|=4$, $s_i=\pm1$ & $\sum_{i\in B}s_ie_i$ & $4$ & $3960$ \\
+$U$ (half-integer) & $\tfrac1{2\sqrt2}\sum_{i\in H}s_ie_i$, $|H|=8$, even & $\sum_{i\in H}s_ie_i$ & $8$ & $31{,}680$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Here $B$ ranges over the $\binom{12}{4}=495$ four-point supports ($8$ lines
+each, sign vectors up to negation), and $H$ over the $\binom{12}{8}=495$
+eight-point supports (``cells''). In the $U$ alphabet we keep only the
+\emph{even sign class} (an even number of minus signs); negation preserves
+sign parity on an $8$-support, so each cell carries
+$2^8/2\cdot\tfrac12=64$ lines and $|U|=495\cdot 64=31{,}680$.
+
+Two lines with integer representatives $g_1,g_2$ of norms $N_1,N_2$ are
+\emph{in conflict} (angle below $60^\circ$) iff
+\begin{equation}\label{eq:predicate}
+4\,\langle g_1,g_2\rangle^2 \;>\; N_1 N_2 ,
+\end{equation}
+a pure big-integer predicate; a legal configuration is an independent set
+of the conflict graph. The full graph on
+$12+3960+132+31{,}680=35{,}784$ vertices has $40{,}130{,}904$ edges. Some
+structural facts, each recomputed exactly from \eqref{eq:predicate} during
+graph construction (artifact \texttt{K2\_stats.json}, predicate-validation
+mismatches $0$; the repository README reproduces the full alphabet-pair
+edge census):
+\begin{itemize}
+\item $W_2$ is internally conflict-free ($0$ $W_2$--$W_2$ edges) and
+conflict-free against all of $U$ ($0$ $W_2$--$U$ edges); each root line
+conflicts with exactly the two axes in its support ($264$ $A$--$W_2$
+edges), and with weight-$4$ lines as dictated by \eqref{eq:predicate}
+($23{,}760$ $W_4$--$W_2$ edges).
+\item Two $U$-lines in cells $H,H'$ with $s=|H\cap H'|$ common coordinates
+have $\langle u,u'\rangle=\tfrac18\sum_{i\in H\cap H'}s_is_i'$, so they
+conflict iff $\bigl|\sum_{i\in H\cap H'}s_is_i'\bigr|\ge 5$; all realized
+$|\cos|$ values lie in $\{0,\tfrac18,\tfrac14,\tfrac38,\tfrac12\}$.
+Cell pairs with $s=4$ are conflict-free; the census of cell pairs is
+$s{=}4\!:17{,}325$, $s{=}5\!:55{,}440$, $s{=}6\!:41{,}580$,
+$s{=}7\!:7{,}920$ (total $\binom{495}{2}=122{,}265$). A conflicting
+cell pair induces $256/128/512$ conflict edges among its $64\times64$
+line pairs at $s=5/6/7$ respectively (the structure lemma,
+Theorem~\ref{thm:structure}), and at most $64$ lines can be chosen
+from the two cells jointly (the pair cap, Corollary~\ref{cor:kappa}).
+\item The induced $U$-world graph has $31{,}680$ vertices,
+$23{,}569{,}920$ edges, and is $1488$-regular and vertex-transitive; its
+largest adjacency eigenvalue is $1488$ (the regularity, exact), and its
+smallest is $-50$ by numerical eigensolve
+(\texttt{V2\_DECISION\_SUMMARY.json}; we have not certified
+$\lambda_{\min}$ exactly, and it enters only the avowedly loose Hoffman row
+of Table~\ref{tab:loose}).
+\end{itemize}
+
+Because coherence is scale-invariant, mixing the norm-$2$, norm-$4$ and
+norm-$8$ shells is legitimate --- the mixed graph is exactly the object a
+cross-shell (``grand mixed'') search should explore, and to our knowledge
+it had not been searched before.
+
+\section{The configuration and its verification}\label{sec:config}
+
+\begin{theorem}[a second $420$]\label{thm:exists}
+There exists an antipodal kissing configuration of $840$ points in
+$\RR^{12}$, i.e.\ a system of $420$ lines with pairwise $|\cos|\le 1/2$,
+consisting of all $132$ root lines $W_2$ together with $288$ half-integer
+lines from $U$, distributed over the $15$ cells of
+Table~\ref{tab:cells} ($24$ lines in each of $3$ cells, $20$ in each of
+$6$, $16$ in each of $6$). All $87{,}990$ line pairs satisfy the coherence
+bound exactly, with $20{,}464$ pairs at $|\cos|=\tfrac12$ exactly, and the
+multiset of $|\cos|$ values is
+\[
+\Bigl\{\,0^{\,35142},\ \bigl(\tfrac14\bigr)^{32384},\
+\bigl(\tfrac12\bigr)^{20464}\Bigr\}.
+\]
+\end{theorem}
+
+\begin{proof}
+\texttt{make verify}. The witness \texttt{certs/config420.json} lists the
+$420$ integer representatives; the checker recomputes every pairwise
+predicate \eqref{eq:predicate} in big-integer arithmetic (independently
+re-verified in exact $\QQ(\sqrt2)$ by the campaign adjudicator, a second
+route that is not part of this repository's certificate set:
+$0$ violations on both), together with the composition, the cell
+distribution, and the displayed histogram. No claimed count is echoed:
+histogram and margins are recomputed from the vectors.
+\end{proof}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}llcl@{}}
+\toprule
+cell support $H$ & lines & \quad & cell support $H$ \quad lines \\
+\midrule
+$\{0,1,2,5,6,7,9,11\}$   & $24$ & & $\{1,2,3,4,6,7,8,10\}$ \quad $20$ \\
+$\{0,3,4,5,8,9,10,11\}$  & $24$ & & $\{0,1,2,3,4,5,9,11\}$ \quad $16$ \\
+$\{1,2,3,4,5,6,7,11\}$   & $24$ & & $\{0,1,2,3,4,6,7,9\}$  \quad $16$ \\
+$\{0,1,2,3,4,8,9,10\}$   & $20$ & & $\{0,1,2,5,8,9,10,11\}$ \quad $16$ \\
+$\{0,1,2,6,7,8,9,10\}$   & $20$ & & $\{0,3,4,5,6,7,9,11\}$ \quad $16$ \\
+$\{0,3,4,6,7,8,9,10\}$   & $20$ & & $\{1,2,5,6,7,8,10,11\}$ \quad $16$ \\
+$\{0,5,6,7,8,9,10,11\}$  & $20$ & & $\{3,4,5,6,7,8,10,11\}$ \quad $16$ \\
+$\{1,2,3,4,5,8,10,11\}$  & $20$ & & \\
+\bottomrule
+\end{tabular}
+\caption{The $15$ cells of the new configuration and their line counts
+($3\times24+6\times20+6\times16=288$). Every cell is \emph{partial} (out
+of $64$ possible lines), and --- as Section~\ref{sec:rotation} explains ---
+the $15$ supports are exactly the $\binom{6}{4}=15$ supports aligned with
+one pairing of the $12$ coordinates into $6$ pairs.}
+\label{tab:cells}
+\end{table}
+
+\emph{Provenance (not part of the certificate).} The configuration was
+found by KaMIS \cite{KaMIS17} (weighted branch-and-reduce, $7200$\,s) as a
+maximum-independent-set incumbent on the full $35{,}784$-vertex mixed
+graph. The incumbent contains zero axes and zero weight-$4$ lines --- the
+search abandoned the classical architecture entirely. Two facts make the
+object remarkable before any novelty argument: $23.3\%$ of its pairs are at
+zero margin (tight $|\cos|=\tfrac12$), and its $288$ half-integer lines
+occupy $4.5$ cells' worth of capacity spread over $15$ partial cells, so
+within the half-integer world \emph{mixing beats whole-cell packing} ---
+the opposite of the regime we had established in dimension~$11$.
+
+Since the $132$ root lines are conflict-free among themselves and against
+all of $U$, this architecture reduces cleanly:
+\begin{equation}\label{eq:reduction}
+\alpha\bigl(W_2\cup U\bigr)\;=\;132+\alpha(U),
+\end{equation}
+and the record condition ``$421$ lines'' is exactly $\alpha(U)\ge 289$.
+The rest of the note is organized around that single question.
+
+\section{Novelty: a packing-independent counting theorem}\label{sec:novelty}
+
+The classical $420$ consists of the $12$ axes plus $51$ \emph{whole}
+weight-$4$ cells over a maximum quadruple packing: $D(3,4,12)=51$ is the
+maximum number of $4$-subsets of a $12$-set with every $3$-subset covered
+at most once. In constant-weight-code terms this is $A(12,4,4)=51$, listed
+as exact in the standard tables \cite{BSSS90}; quadruple systems go back to
+Hanani \cite{Hanani60}, and \cite{HartmanPhelps92} surveys the packing
+theory. Our artifacts independently cross-check the value by exact ILP
+(HiGHS, integer optimal). With $51$ blocks, $12+8\cdot51=420$ lines and
+$24+16\cdot51=840$ points.
+The inner-product histogram is an isometry invariant, and the classical
+configuration's histogram, recomputed exactly from an explicit $51$-block
+packing (artifact \texttt{modular420\_invariants.json}; a campaign
+artifact, not part of this repository's certificate set), is
+$\{0\!:\!35{,}238,\ \tfrac14\!:\!32{,}256,\ \tfrac12\!:\!20{,}496\}$ ---
+already different from the new configuration's histogram, which settles
+non-isometry to that specific object. The following theorem is much
+stronger: no configuration of the classical \emph{type} realizes the new
+histogram, whatever packing it is built on.
+
+\begin{theorem}[novelty]\label{thm:novelty}
+No line configuration consisting of the $12$ axis lines together with $51$
+whole weight-$4$ cells (over any legal family of $51$ blocks) has
+inner-product histogram
+$\{0\!:\!35{,}142,\ \tfrac14\!:\!32{,}384,\ \tfrac12\!:\!20{,}464\}$.
+Consequently the configuration of Theorem~\ref{thm:exists} is not
+isometric to the classical $420$, nor to any axes-plus-whole-cells
+configuration.
+\end{theorem}
+
+\begin{proof}
+Every line of such a configuration has an integer representative of norm
+$N\in\{1,4\}$, so every pairwise $|\cos|$ is $|d|/\sqrt{N_1N_2}$ with
+$d\in\ZZ$ and $\sqrt{N_1N_2}\in\{1,2,4\}$: a multiple of $\tfrac14$, and
+legality restricts to $\{0,\tfrac14,\tfrac12\}$.
+
+Let the blocks be $B_1,\dots,B_{51}$, let $r_i$ be the number of blocks
+containing point $i$, and let $P_1$ (resp.\ $P_2$) be the number of block
+pairs sharing exactly $1$ (resp.\ $2$) points. Legality forces every block
+pair to share at most $2$ points: two \emph{whole} cells on blocks sharing
+$3$ points contain a sign-aligned triple, realizing $|\cos|=\tfrac34$.
+Counting each $|\cos|$ class (a finite check per case; the checker
+recomputes it):
+axis--axis pairs contribute $0$'s; axis--cell pairs contribute
+$|\cos|=\tfrac12$ exactly when the axis point lies in the block ($8$ lines
+per block): $8\sum_i r_i$ pairs; each whole cell internally contributes
+$16$ pairs at $\tfrac12$ and $12$ at $0$; a block pair sharing $2$ points
+contributes $32$ pairs at $\tfrac12$ and $32$ at $0$; a block pair sharing
+$1$ point contributes all $64$ pairs at $\tfrac14$; disjoint block pairs
+contribute $0$'s. Hence
+\[
+n_{1/4}=64\,P_1,
+\qquad
+n_{1/2}=8\sum_i r_i+16\cdot 51+32\,P_2 .
+\]
+Since every block has $4$ points, $\sum_i r_i=4\cdot51=204$ always, so
+matching the stated histogram requires
+\[
+P_1=\tfrac{32384}{64}=506,
+\qquad
+P_2=\tfrac{20464-1632-816}{32}=563 .
+\]
+Double-counting incidences of points in block pairs,
+$\sum_i\binom{r_i}{2}=P_1+2P_2=506+1126=1632$. By convexity with
+$\sum_i r_i=204$ over $12$ points (mean $17$),
+$\sum_i\binom{r_i}{2}\ge 12\binom{17}{2}=1632$, with equality iff
+$r_i=17$ for every $i$. So $r_i\equiv 17$ is forced.
+
+Now let $\lambda_p$ be the number of blocks containing the pair
+$p\subset[12]$. Blocks through a fixed pair $p$ have pairwise-disjoint
+$2$-point remainders in the other $10$ points (two blocks through $p$
+sharing a third point would share $3$ points), so $\lambda_p\le 5$. Fix a
+point $i$: each block through $i$ contains $3$ pairs through $i$, so
+$\sum_{j\ne i}\lambda_{ij}=3r_i=51$, a sum of $11$ values in
+$\{0,\dots,5\}$. The convex functional $\sum_{j\ne i}\binom{\lambda_{ij}}2$
+is minimized at the most-equal admissible vector $(5^7,4^4)$:
+$7\cdot10+4\cdot6=94$. A block pair sharing exactly $2$ points shares
+exactly one pair, so $\sum_p\binom{\lambda_p}2=P_2$, and summing the
+per-point inequality over the $12$ points counts each pair twice:
+\[
+2P_2=\sum_i\sum_{j\ne i}\binom{\lambda_{ij}}2\;\ge\;12\cdot 94=1128,
+\qquad\text{so } P_2\ge 564 .
+\]
+This contradicts $P_2=563$.
+\end{proof}
+
+\begin{remark}
+The bound is tight in the right way: the classical configuration itself has
+$(P_1,P_2)=(504,564)$ with $r_i\equiv17$ and pair degrees
+$\lambda\in\{4^{24},5^{42}\}$, sitting exactly on the convexity floor.
+The new histogram misses it by one.
+\end{remark}
+
+\begin{remark}[weaker invariants fail]
+The novelty is invisible to cruder tests. The new configuration realizes
+only the classical $|\cos|$ support $\{0,\tfrac14,\tfrac12\}$ --- the
+odd-eighth values $\tfrac18,\tfrac38$ available to the half-integer
+alphabet are never used (every cohabiting cell pair has even overlap), so
+the ``odd-eighth certificate'' one might hope for does not fire. Per-line
+degree profiles also fail: the new configuration contains exactly $12$
+lines with profile $(n_0,n_{1/4},n_{1/2})=(283,0,136)$, \emph{identical}
+to the classical configuration's axis lines at replication $17$. The
+counting theorem is what remains after these invariants collapse.
+\end{remark}
+
+\section{The rotation certificate and slice closure}\label{sec:rotation}
+
+Novelty notwithstanding, the new configuration is not far from the integer
+world --- it is a rotation of a mixed whole/partial-cell integer
+configuration, a fact we certify exactly.
+
+For a \emph{pairing} $P$ of the $12$ coordinates into $6$ unordered pairs
+(there are $11!!=10{,}395$ pairings), let $T_P\in O(12)$ be the blockwise
+rotation by $45^\circ$ in each of the $6$ coordinate planes: on the plane
+of the pair $(a,b)$,
+\[
+T_P\,e_a=\tfrac{1}{\sqrt2}(e_a+e_b),
+\qquad
+T_P\,e_b=\tfrac{1}{\sqrt2}(-e_a+e_b).
+\]
+Call an $8$-support $H$ \emph{$P$-aligned} if $H$ is a union of $4$ pairs
+of $P$ (equivalently its $4$-point complement is a union of $2$ pairs);
+each pairing has $\binom64=15$ aligned supports.
+
+\begin{theorem}[rotation certificate]\label{thm:rotation}
+Let $P_0=\{(0,9),(1,2),(3,4),(5,11),(6,7),(8,10)\}$. Then
+$T_{P_0}$ maps the configuration of Theorem~\ref{thm:exists} exactly
+--- certified in $\QQ(\sqrt2)$ arithmetic, line by line --- onto a
+configuration in the integer world $A\cup W_4$ consisting of the $12$ axis
+lines plus $408$ weight-$4$ lines over $55$ supports: $47$ whole cells
+($8$ lines) and $8$ half cells ($4$ lines).
+\end{theorem}
+
+\begin{proof}
+\texttt{make verify} replays the isometry: the checker applies the
+explicit $T_{P_0}$ (entries in $\tfrac1{\sqrt2}\ZZ$) to each of the
+$420$ integer representatives, working in $\ZZ[\sqrt2]$, and verifies that
+every image is an axis or weight-$4$ line, then recomputes the support
+census $47\cdot8+8\cdot4=408$, $12+408=420$
+(certificate \texttt{certs/rotation.json}).
+\end{proof}
+
+So the new configuration is Hanani-capped in disguise: up to isometry it
+lives inside the integer weight-$4$ world --- but as the first known
+$420$ using \emph{partial} cells ($8$ half cells), which is exactly what
+Theorem~\ref{thm:novelty} says it must do to avoid the classical type.
+The mechanism generalizes to every pairing:
+
+\begin{theorem}[slice closure]\label{thm:slice}
+Fix any pairing $P$ and let the \emph{$P$-slice} be the line family
+consisting of all $132$ root lines together with all $15\cdot64=960$
+half-integer lines in $P$-aligned cells. Then:
+\begin{enumerate}
+\item[(a)] $T_P$ maps the $P$-slice isometrically into the integer
+world $A\cup W_4$;
+\item[(b)] every legal configuration of $P$-aligned half-integer lines has
+at most $288$ lines, and $288$ is achieved;
+\item[(c)] every legal configuration inside the $P$-slice has at most
+$420$ lines, and $420$ is achieved.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) Root lines on a pair of $P$ map to axes:
+$T_P\bigl((e_a+e_b)/\sqrt2\bigr)=e_b$ and
+$T_P\bigl((e_a-e_b)/\sqrt2\bigr)=e_a$ for $(a,b)\in P$ ($12$ lines);
+root lines across two pairs map to weight-$4$ lines (four entries
+$\pm\tfrac12$). For a half-integer line $u$ on a $P$-aligned support, each
+of its $4$ pairing planes carries coordinates
+$(x,y)\in\{\pm\tfrac1{2\sqrt2}\}^2$, and in-plane
+\[
+T_P:\ (x,y)\ \longmapsto\
+\Bigl(\tfrac{x-y}{\sqrt2},\ \tfrac{x+y}{\sqrt2}\Bigr),
+\]
+where exactly one of $x\pm y$ vanishes and the other is $\pm\tfrac1{\sqrt2}$;
+so the image has exactly one entry $\pm\tfrac12$ per plane: four entries
+$\pm\tfrac12$ on a $4$-support, a weight-$4$ line. An orthogonal map
+preserves all inner products, and distinct lines map to distinct lines.
+
+(b) Upper bound: the $P$-aligned half-integer world is a $960$-vertex
+induced subgraph of the $U$-conflict graph; an exact CP-SAT \cite{CPSAT}
+solve certifies its maximum independent set to be $288$
+(status \textsc{optimal}; receipt
+\texttt{certs/receipts/result\_slice\_only.json}).
+The symmetric group $S_{12}$ permutes coordinates, acts transitively on
+pairings, and induces isomorphisms of the aligned-cell graphs, so the
+computation for one pairing settles all $10{,}395$. Achievability is the
+$288$-line witness of Theorem~\ref{thm:exists} (whose $15$ cells are
+exactly the $P_0$-aligned supports --- all of them carry lines).
+
+(c) Root lines are conflict-free among themselves and against all of $U$,
+so a maximum slice configuration is all $132$ roots plus a maximum
+$P$-aligned $U$-configuration: $132+288=420$ by (b), achieved by
+Theorem~\ref{thm:exists}.
+\end{proof}
+
+\begin{remark}[two routes to the cap]
+Part (b) rests on one finite certified-\textsc{optimal} computation. An
+alternative, computation-free route runs through (a) plus the maximality of
+the classical $840$ for the integer norm-$4$ alphabet
+($\alpha(A\cup W_4)=12+8\cdot D(3,4,12)=420$): embedding a $P$-aligned
+$289$-configuration plus all $132$ roots into $A\cup W_4$ would give $421$
+there. We established that maximality in earlier campaign work (campaign log,
+2026-07-01); its formal writeup and receipt are \emph{not} part of this
+note's certificate set, which is why the theorem above is stated with the
+self-contained CP-SAT route. (A subtlety worth recording: \emph{partial}
+$W_4$ cells can share $3$ support points without illegality --- only two
+\emph{whole} cells on $3$-point-sharing blocks force a sign-aligned triple
+--- so the $A\cup W_4$ cap is genuinely stronger than the naive whole-cell
+count and must be proven at line level, as the campaign computation did.)
+\end{remark}
+
+The strategic consequence is sharp: within any single slice the record is
+unreachable ($420$ exactly), so
+\begin{center}
+\emph{a $421$-line configuration of this architecture --- equivalently a
+$289$-line half-integer configuration, by \eqref{eq:reduction} --- must
+mix across slices, i.e.\ use cell pairs with odd overlap
+$|H\cap H'|\in\{5,7\}$, the $|\cos|\in\{\tfrac18,\tfrac38\}$ regime.}
+\end{center}
+The ``i.e.''\ deserves care: escaping every slice and containing an
+odd-overlap cell pair are \emph{not} the same condition at cell level, and
+the gap is exactly the even-but-unaligned cell families of
+Section~\ref{sec:odd}, where the displayed statement is proven outright
+(Corollary~\ref{cor:oddpair}).
+
+\section{The ladder: what is proven about $\alpha(U)$, and what is only
+searched}\label{sec:ladder}
+
+Fix the pairing $P_0$ and call a cell \emph{foreign} if it is not
+$P_0$-aligned ($495-15=480$ foreign cells). Let
+$B_6\le S_{12}$ be the stabilizer of $P_0$ (the hyperoctahedral group of
+order $2^6\,6!=46{,}080$), which acts on foreign cells and their tuples.
+The exact ladder solves, with CP-SAT to certified \textsc{optimal}, the
+maximum independent set of the $P_0$-slice augmented by $k$ foreign cells,
+for \emph{every} orbit of $k$-tuples at levels $k\le3$:
+
+\begin{center}
+\begin{tabular}{@{}clllc@{}}
+\toprule
+level & universes solved & orbit enumeration & result & status \\
+\midrule
+$0$ & slice only ($960$ v.) & --- & $288$ & \textsc{optimal} \\
+$1$ & all $480$ foreign cells & exhaustive & $288$ in all $480$ & all \textsc{optimal} \\
+$2$ & $39$ $B_6$-orbit reps of foreign pairs & complete & $288$ in all $39$ & all \textsc{optimal} \\
+$3$ & $1284$ $B_6$-orbit reps of foreign triples & complete & $288$ in all $1284$ & all \textsc{optimal} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{theorem}[exclusion ladder]\label{thm:ladder}
+Every legal half-integer configuration all of whose cells lie within $3$
+foreign cells of some pairing --- i.e.\ every configuration whose cell set
+is contained in (aligned cells of $P$) $\cup$ ($\le3$ other cells), for
+some pairing $P$ --- has at most $288$ lines. Equivalently: a $289$-line
+half-integer configuration must use at least $4$ cells foreign to
+\emph{every} one of the $10{,}395$ pairings.
+\end{theorem}
+
+\begin{proof}
+By $S_{12}$-transitivity on pairings it suffices to treat $P_0$. A
+configuration using at most $3$ foreign cells is contained in one of the
+level-$\le3$ universes, each of whose maximum independent sets is
+certified \textsc{optimal} at $288$; the $B_6$-orbit enumeration at levels
+$2$ and $3$ is complete (level-$3$ orbits computed by connected components
+under a $3$-element generating set of $B_6$ and validated by reproducing
+the $39$ level-$2$ orbits with the same machinery). Receipts, all under
+\texttt{certs/receipts/}: \texttt{result\_slice\_only.json},
+\texttt{level2.json} and \texttt{level3.json} for levels $0/2/3$; the
+level-$1$ per-cell results (all $480$ foreign cells at $288$, all
+\textsc{optimal}) are recorded in \texttt{V2\_DECISION\_SUMMARY.json}
+(\texttt{exact\_results.LEVEL1\_complete}).
+\end{proof}
+
+\emph{Beyond level $3$ (search, not proof).} Random level-$4$/$5$/$6$
+universes ($\approx120$ each: $119/118/117$ certified \textsc{optimal} at
+$288$, the remainder timing out with incumbent $288$, zero records);
+all $31$ two-slice unions $P_0\cup P_1$ with $P_1$ one element-swap away
+(best $288$, $24$ of $31$ \textsc{optimal}); anchored $100$-cell
+universes around the slice ($20+$ diverse runs, never above $288$);
+free random $100$-cell universes (only $\approx142$ --- structure-poor,
+confirming that slices are where the capacity lives); and long multi-seed
+KaMIS runs on the full $U$-world, which reproduce $288$ and never $289$.
+The $288$ witness was accepted as a warm start in every bounded run and
+never improved.
+
+\emph{Why no global theorem yet.} The full $U$-world exact model
+($31{,}680$ binary variables, $23{,}569{,}920$ constraints) exceeded the
+memory budget of our shared hardware; CP-SAT's dual bound degrades quickly
+beyond $\approx27$-cell universes; and every tractable convex relaxation
+has a hopeless integrality gap (Table~\ref{tab:loose}). The honest summary:
+
+\begin{center}
+\fbox{\parbox{0.92\textwidth}{
+$\alpha(U)\ge 288$ is certified (explicit witness).
+$\alpha(U)=288$ is \textbf{proven for every configuration within $3$
+foreign cells of any slice} (Theorem~\ref{thm:ladder}) and
+\textbf{unrefuted by extensive exact search} beyond that radius, but it is
+\textbf{not globally proven}. Every ``$289$-witness or world record''
+statement in our campaign remains conditional on closing this gap.}}
+\end{center}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+relaxation & bound on $\alpha(U)$ & nature \\
+\midrule
+Delsarte angle LP \cite{DGS75} ($|\cos|\in\{0,\tfrac18,\tfrac14,\tfrac38,\tfrac12\}$) & $\le 583.7$ & numeric, converged \\
+Hoffman ratio $\,n(-\lambda_{\min})/(d-\lambda_{\min})$, $d=1488$, $\lambda_{\min}=-50$ & $\le 1029.91$ & spectral \\
+LP with all $10{,}395$ slice cuts ($\le288$ per pairing) & $9504$ & fractional ($x\equiv0.3$) \\
+\bottomrule
+\end{tabular}
+\caption{Rigorous-but-loose global upper bounds versus the believed truth
+$288$: the integrality gap is enormous, so no tractable convex relaxation
+can decide $289$. Decimals rounded toward $+\infty$. The Delsarte value is
+the converged floating-point LP optimum ($583.68$), \emph{not} an
+exact-rational certificate like those of the predecessor note
+\cite{RussellLines26}, and the Hoffman row uses the numerically computed
+$\lambda_{\min}=-50$ of Section~\ref{sec:alphabets}; both rows are loose by
+a factor $\ge 2$, so their numeric status is immaterial to every
+conclusion. Theorem~\ref{thm:barrier} explains the third row's uselessness
+structurally.}
+\label{tab:loose}
+\end{table}
+
+\section{The odd-overlap frontier: pair structure, even closure, an LP
+barrier, and the star reduction}\label{sec:odd}
+
+The ladder localizes a hypothetical $289$; this section reports a direct
+structural attack on the gap itself (a dedicated lemma-hunt session,
+2026-07-10/11). The attack did not prove the odd-overlap lemma. It
+produced something arguably better: an exact description of the local
+conflict structure, a closure of the entire even-overlap side that repairs
+a hole in our own roadmap, a proof that the odd-overlap lemma is
+\emph{equivalent} to the global statement $\alpha(U)=288$, a barrier
+theorem showing that every cut family in this note --- the ladder's
+included --- is provably insufficient to close it, and a reduction of both
+the closure and the record hunt to a single sharp question in a world
+three times smaller.
+
+Every claim below carries one of three labels. \textsc{(proven)}: a
+complete proof appears here. \textsc{(machine)}: an exhaustive exact
+computation --- stdlib-only big-integer branch-and-bound, no solver, no
+floats --- cited with its exact content; the scripts and result files ship
+with the repository (\texttt{scripts/oddlemma/}) and every such entry
+reproduces in seconds. \textsc{(open)}: open, stated as such.
+
+\emph{Notation.} We index a cell by its $4$-point \emph{defect}
+$A=[12]\setminus H$ rather than its $8$-point support $H$; cells are the
+$\binom{12}{4}=495$ four-subsets of $[12]$. For cells $A\ne B$ put
+$t=|A\cap B|$; the common support is exactly
+$H\cap H'=[12]\setminus(A\cup B)=:R$ with $r=|R|=4+t$, so $t=0,1,2,3$
+corresponds to support overlap $|H\cap H'|=4,5,6,7$. $t=0$ pairs are
+conflict-free (``free''), $t\in\{1,3\}$ are the odd-overlap pairs, $t=2$
+the even ones. For a configuration $S$ and a cell $A$, $n_A$ denotes the
+number of $S$-lines in cell $A$ ($0\le n_A\le 64$).
+
+\subsection{The structure of a conflicting cell pair}
+
+\begin{theorem}[structure lemma]\label{thm:structure}
+Let $A,B$ be cells with $t=|A\cap B|\in\{1,2,3\}$, and for a line $u$ in
+either cell let its \emph{color} be the restriction of its sign vector to
+$R$, taken modulo global sign. Then the bipartite conflict graph between
+the $64$ lines of $A$ and the $64$ lines of $B$ is: \textup{(i)} for $t=1$
+($r=5$): $16$ color classes of $4$ lines per cell; two lines conflict iff
+they have the same color; the graph is $16$ disjoint copies of $K_{4,4}$,
+$256$ edges. \textup{(ii)} for $t=2$ ($r=6$): $32$ colors of $2$; $32$
+disjoint $K_{2,2}$, $128$ edges. \textup{(iii)} for $t=3$ ($r=7$): the
+color map is a bijection from each cell's $64$ lines onto the folded
+$7$-cube $\mathbb{F}_2^7/\langle\mathbf 1\rangle$, and two lines conflict
+iff their folded Hamming distance is $\le 1$; the graph is the bipartite
+unit-ball graph of the folded $7$-cube, $64\cdot 8=512$ edges.
+\textsc{(proven}; censuses $256/128/512$ independently
+\textsc{machine}-verified, \texttt{scripts/oddlemma/uw.py} self-test, and
+recorded in the campaign artifact \texttt{V2\_DECISION\_SUMMARY.json}%
+\textsc{)}
+\end{theorem}
+
+\begin{proof}
+Write $\varepsilon,\varepsilon'$ for sign vectors of lines $u$ (on $H_A$)
+and $v$ (on $H_B$). Since $8\langle u,v\rangle=\sum_{i\in R}
+\varepsilon_i\varepsilon'_i$ and conflict means $|\cos|>\tfrac12$, the
+pair conflicts iff $\bigl|\sum_{i\in R}\varepsilon_i\varepsilon'_i\bigr|
+\ge5$. With $d$ the Hamming distance of the two restrictions to $R$, the
+sum is $r-2d$, so conflict means $|r-2d|\ge 5$: for $r=5$, $d\in\{0,5\}$;
+for $r=6$, $d\in\{0,6\}$; for $r=7$, $d\in\{0,1,6,7\}$. The first two
+cases say exactly ``restrictions agree up to global sign on $R$'' (same
+color); the third says ``folded distance $\le1$''.
+
+Fiber sizes: a cell's support $H$ contains $R$ with $|H\setminus R|=8-r$.
+Given any sign pattern on $R$, the even-parity constraint leaves
+$2^{8-r-1}$ completions on $H\setminus R$ when $r<8$, and modding by
+global flip pairs the pattern $x$ (with its completions) against $\bar x$
+(with the flipped completions); each folded color class
+$\{x,\bar x\}$ therefore carries exactly $2^{8-r-1}$ lines of the cell:
+$4$ per class for $r=5$ ($16$ classes), $2$ for $r=6$ ($32$ classes), $1$
+for $r=7$ ($64$ classes --- a bijection). The folded $7$-cube is
+$7$-regular (neighbors of $\{x,\bar x\}$ are the classes $\{x+e_i\}$,
+$i\in R$, pairwise distinct), so each line has $1+7=8$ conflict partners
+at $t=3$, giving $64\cdot8=512$ edges; the same-color counts give
+$16\cdot4\cdot4=256$ and $32\cdot2\cdot2=128$.
+\end{proof}
+
+\begin{corollary}[pair cap]\label{cor:kappa}
+For every conflicting cell pair, $n_A+n_B\le 64$, and $64$ is attained for
+every $t\in\{1,2,3\}$. \textsc{(proven)}
+\end{corollary}
+
+\begin{proof}
+$t=1,2$: within one color class the conflict graph is complete bipartite,
+so an independent set uses lines of at most one cell per class; each class
+holds $4$ (resp.\ $2$) lines of one cell, whence at most $16\cdot4$
+(resp.\ $32\cdot2$) $=64$ lines in total. $t=3$: identify both cells with
+the folded $7$-cube $V$; an independent set is $S_A\sqcup S_B$ with $S_B
+\cap N[S_A]=\emptyset$, so $|S_A|+|S_B|\le|S_A|+64-|N[S_A]|\le 64$ since
+$S_A\subseteq N[S_A]$. Tightness: one full cell.
+\end{proof}
+
+\begin{theorem}[$t=3$ rigidity]\label{thm:rigid}
+If $t=3$ and \emph{both} cells are nonempty, then $n_A+n_B\le 57$, and
+$(1,56)$ is attained. By contrast $t=1$ and $t=2$ have no such penalty:
+both-nonempty pairs attain $64$.
+\textsc{(proven}, with the folded-$7$-cube connectivity input
+\textsc{machine}-verified; the exact both-nonempty maxima
+$57/64/64$ are also directly \textsc{machine}-computed
+(\texttt{stage3.py}, \texttt{stage6.py})\textsc{)}
+\end{theorem}
+
+\begin{proof}
+The folded $7$-cube is vertex-transitive and $7$-connected: connectivity
+was verified exactly by unit-capacity max-flow (Menger) over all
+non-neighbor pairs from a base vertex, which suffices by transitivity
+(\texttt{stage3.py}); it is also an instance of the theorem that the
+vertex connectivity of a distance-regular graph equals its valency
+\cite{BrouwerKoolen09}. Now let $S_A,S_B\ne\emptyset$ be the two sides of
+an independent set. Since $S_B\ne\emptyset$, $N[S_A]\ne V$; then the
+boundary $\partial S_A=N[S_A]\setminus S_A$ separates $S_A$ from
+$V\setminus N[S_A]$, so $|\partial S_A|\ge 7$ by $7$-connectivity. Hence
+$n_A+n_B\le|S_A|+\bigl(64-|S_A|-7\bigr)=57$. For tightness take $S_A$ a
+single vertex ($|\partial S_A|=7$ exactly) and $S_B$ the complement of its
+closed ball: $1+56=57$. For $t=1$: one color class of $B$ plus the other
+fifteen classes of $A$ gives $4+60=64$ with both cells nonempty;
+similarly for $t=2$ ($2+62$).
+\end{proof}
+
+The moral of Theorem~\ref{thm:rigid} is a warning: the ``odd overlap''
+regime is not uniformly expensive. Odd $t=3$ carries a real rigidity
+penalty; odd $t=1$ is combinatorially as cheap as the even case.
+
+\subsection{Localization caps}
+
+\begin{lemma}[$W_{\le6}$ localization]\label{lem:w6}
+Any legal configuration whose occupied cells all lie inside a fixed point
+set $W$ with $|W|\le 6$ has at most $64$ lines. \textsc{(proven)}
+\end{lemma}
+
+\begin{proof}
+Let $D=[12]\setminus W$, $|D|=12-|W|\ge 6$. Every occupied cell $A\subseteq
+W$ has support $H\supseteq D$. Classify lines by the restriction of their
+sign vector to $D$ modulo global sign: $2^{|D|-1}$ classes, and (as in
+Theorem~\ref{thm:structure}) each cell holds exactly $2^{8-|D|-1}$ lines
+per class. Two same-class lines in \emph{distinct} cells $A,B\subseteq W$
+conflict outright: their common support $R\supseteq D$ has
+$|R\setminus D|=|W|-|A\cup B|\le 6-5=1$, and the restriction sum over $D$
+is $\pm|D|$, so $\bigl|\sum_R\varepsilon\varepsilon'\bigr|\ge|D|-1\ge5$.
+Hence each class contributes lines of at most one cell, i.e.\ at most
+$2^{8-|D|-1}$ lines, and the total is at most
+$2^{|D|-1}\cdot2^{8-|D|-1}=64$. One full cell attains it.
+\end{proof}
+
+\begin{lemma}[$W_7$ localization]\label{lem:w7}
+Any legal configuration whose occupied cells lie inside a fixed $7$-point
+set has at most $64$ lines, attained. \textsc{(machine}: with
+$|D|=5$ the same-class argument no longer gives outright conflict, but
+dropping cross-class edges only relaxes the problem; the $16$ fold classes
+on $D$ (each an exact $140$-vertex sub-problem over the $35$ cells) have
+exact maximum independent sets of size $4$ each, summing to $64$
+(\texttt{stage7.py}, \texttt{w7\_result.json}; about two seconds)%
+\textsc{)}
+\end{lemma}
+
+\begin{lemma}[$W_8$ localization]\label{lem:w8}
+Any legal configuration whose occupied cells lie inside a fixed $8$-point
+set $W$ has at most $128$ lines, attained. \textsc{(proven} from
+Lemma~\ref{lem:w7}\textsc{)}
+\end{lemma}
+
+\begin{proof}
+$W$ has eight $7$-point subsets $W'$; a cell $A\subseteq W$ ($|A|=4$) lies
+in exactly $4$ of them (choose which of the $4$ points of
+$W\setminus A$ to delete). Summing the Lemma~\ref{lem:w7} bound over the
+eight $W'$ counts every line exactly $4$ times: $4N\le 8\cdot 64$, i.e.\
+$N\le128$. Attained by a complementary pair of cells $A$ and $W\setminus
+A$ ($t=0$, conflict-free): $64+64$.
+\end{proof}
+
+\begin{corollary}[full-cell collapse]\label{cor:fullcell}
+If some cell is full ($n_A=64$) then every cell meeting $A$ is empty, all
+other occupied cells lie inside the $8$-set $H_A$, and the configuration
+has at most $64+128=192$ lines. Consequently every configuration with
+$\ge193$ lines --- in particular any hypothetical $289$ --- has
+$n_A\le 63$ in every cell. \textsc{(proven)}
+\end{corollary}
+
+\begin{proof}
+By Corollary~\ref{cor:kappa}, $n_A=64$ forces $n_B=0$ for every $B$ with
+$B\cap A\ne\emptyset$; the surviving cells satisfy $B\cap A=\emptyset$,
+i.e.\ $B\subseteq H_A$, and Lemma~\ref{lem:w8} caps them at $128$.
+\end{proof}
+
+\subsection{The even side: classification, closure, and the equivalence}
+
+Call a family of cells \emph{even} if all pairwise intersections
+$|A\cap B|$ are even (i.e.\ $t\in\{0,2\}$ --- support overlaps
+$|H\cap H'|\in\{4,6\}$). The slice-aligned cell families of
+Theorem~\ref{thm:slice} are even, but the converse fails, and this failure
+is precisely the hole in our earlier roadmap. The classification is,
+pleasingly, the $d/e_7/e_8$ trichotomy familiar from doubly-even binary
+codes and root lattices.
+
+\begin{theorem}[even classification]\label{thm:evenclass}
+Let $\mathcal F$ be an even family of cells, and make $\mathcal F$ a graph
+by joining $A\sim B$ when $|A\cap B|=2$. Then the members of each
+connected component $\mathcal F_0$, with point support
+$P=\bigcup\mathcal F_0$, form one of:
+\begin{itemize}
+\item[\textup{(d)}] a \emph{pair-aligned} family: $P$ partitions into
+$2$-point blocks such that every member of $\mathcal F_0$ is a union of
+two blocks;
+\item[\textup{(e7)}] a subfamily of the $7$ complements of the lines of a
+Fano plane on $P$, $|P|=7$;
+\item[\textup{(e8)}] a subfamily of the $14$ weight-$4$ codewords of an
+extended-Hamming-type $[8,4,4]$ code on $P$, $|P|=8$.
+\end{itemize}
+Moreover the supports of distinct components are disjoint.
+\textsc{(proven)}
+\end{theorem}
+
+\begin{proof}
+Disjointness of component supports: if $x\in P_1\cap P_2$ then $x\in A\cap
+B$ for some $A\in\mathcal F_1$, $B\in\mathcal F_2$, forcing $|A\cap B|=2$
+and an edge across components.
+
+Fix a component $\mathcal F_0$. Say a member $C$ \emph{splits} the block
+$p=A\cap B$ (where $|p|=2$) if $|C\cap p|=1$.
+
+\emph{Case 1: no member splits any block.} We claim the pairwise
+intersections form a disjoint block family. Suppose $p=A\cap B$ and
+$q=C\cap D$ with $|p\cap q|=1$, say $p=\{x,y\}$, $q=\{x,z\}$, $y\ne z$.
+Since $C\supseteq q\ni x$ and $C$ does not split $p$, also $y\in C$;
+likewise $y\in D$; but then $\{x,y,z\}\subseteq C\cap D=q$, impossible.
+So distinct blocks are disjoint. Each member $A$ meets other members in
+blocks contained in $A$, pairwise disjoint, hence in $0$, $1$ or $2$ whole
+blocks; the remaining $4-2(\#\text{blocks in }A)$ points of $A$ lie in no
+other member and can be grouped into fresh blocks arbitrarily. The result
+is a pairing of $P$ with every member a union of two blocks: type (d).
+
+\emph{Case 2: some $C$ splits $p=A\cap B=\{x,y\}$, with $x\in C$,
+$y\notin C$.} Evenness forces $|C\cap A|=2$, say $C\cap A=\{x,a\}$ with
+$a\in A\setminus p$, and $|C\cap B|=\{x,b\}$ with $b\in B\setminus p$; the
+fourth point $c$ of $C$ lies outside $A\cup B$. Writing $A=\{x,y,a,a'\}$,
+$B=\{x,y,b,b'\}$, $C=\{x,a,b,c\}$, the triple spans exactly $7$ points
+$S=\{x,y,a,a',b,b',c\}$. Over $\mathbb F_2$, the span
+$V_3=\langle A,B,C\rangle$ has dimension $3$ and its $7$ nonzero words
+\[
+A,\;B,\;C,\;A{+}B=\{a,a',b,b'\},\;A{+}C=\{y,a',b,c\},\;
+B{+}C=\{y,b',a,c\},\;A{+}B{+}C=\{y,a',b',c\}
+\]
+all have weight $4$. A $[7,3]$ code with all nonzero weights $4$ is the
+Fano-complement code: complements of the words are $3$-sets that pairwise
+meet in exactly $|v\cap w|-1=1$ point (evenness forces $|v\cap w|=2$), and
+$7\cdot\binom32=21=\binom72$ pairs means every point pair lies on exactly
+one $3$-set --- a Steiner $S(2,3,7)$, i.e.\ a Fano plane on $S$, its lines
+the complements. (Such classifications of codes generated by weight-$4$
+words go back to \cite{PlessSloane75}.)
+
+Now take any further member $D$ of $\mathcal F_0$. Evenness against
+$A,B,C$ makes $\mathbf 1_D$ orthogonal to $V_3$, so $D\cap S\in
+V_3^{\perp}\!\restriction_S=V_3\oplus\langle\mathbf 1_S\rangle$, whose
+weights are $\{0,4\}\cup\{3,7\}$; since $|D|=4$, either $D\subseteq S$ and
+$D\in V_3$ (a Fano complement), or $|D\cap S|=3$ with $D\cap S$ a Fano
+line $L$ and $D=L\cup\{z\}$, $z\notin S$, or $D\cap S=\emptyset$. A member
+disjoint from $S$ has intersection of size $\le1$ with every member
+meeting $S$, so no edge connects it to them, and connectivity confines
+$\mathcal F_0$ to members meeting $S$.
+
+If no member takes the $L\cup\{z\}$ form, all members lie in $S$: type
+(e7). Otherwise fix $D=L\cup\{z\}$ and set $S'=S\cup\{z\}$,
+$V_4=\langle V_3,D\rangle$. For a Fano complement $v=S\setminus L'$:
+$|v\cap D|=|v\cap L|=3-|L\cap L'|$, which is $2$ for $L'\ne L$ (weight of
+$v+D$ is $4$) and $0$ for $L'=L$ (then $v+D=\mathbf 1_{S'}$). So $V_4$ is
+a $[8,4]$ code on $S'$ containing $\mathbf 1_{S'}$ with all other nonzero
+words of weight $4$ --- an extended-Hamming-type $[8,4,4]$ code, self-dual
+and doubly even, with exactly $14$ weight-$4$ words. Any further member
+$E$ is orthogonal to $V_4$, so $E\cap S'\in V_4^{\perp}=V_4$ with
+$|E\cap S'|\in\{0,4\}$: either $E$ is one of the $14$ codewords
+($E\subseteq S'$), or $E\cap S'=\emptyset$ --- and in the latter case $E$
+again meets every $S'$-member in $\le1<2$ points, so connectivity excludes
+it. Note also that a second splitting member $D'=L'\cup\{z'\}$ with
+$z'\ne z$ is impossible at this stage, since $|D'\cap S'|=3\notin\{0,4\}$.
+Hence all members lie in $S'$: type (e8).
+\end{proof}
+
+\begin{theorem}[even closure]\label{thm:evenclosure}
+Every legal configuration whose occupied cells form an even family has at
+most $288$ lines, and any such configuration with $288$ lines is
+slice-aligned: its occupied cells are $P$-aligned for some pairing $P$.
+The branch caps are: pair-aligned $\le288$; a component of type (e7)
+confines the whole configuration to $\le 128$ lines; type (e8) to
+$\le192$. \textsc{(proven}, given the solver-certified (CP-SAT
+\textsc{optimal}) slice cap of
+Theorem~\ref{thm:slice}(b) and the \textsc{machine} caps of
+Lemmas~\ref{lem:w7}--\ref{lem:w8}\textsc{)}
+\end{theorem}
+
+\begin{proof}
+Decompose the occupied cells into components as in
+Theorem~\ref{thm:evenclass}; supports are disjoint, and cells of distinct
+components are conflict-free ($t=0$), so the configuration is a free union
+over components.
+
+If some component is of type (e7) with support $S$ ($7$ points): its lines
+are capped by Lemma~\ref{lem:w7} at $64$. All other occupied cells lie in
+the remaining $5$ points, which host at most one cell (two distinct
+$4$-subsets of a $5$-set meet in $3$ points --- odd --- contradicting
+evenness), for at most $64$ more: total $\le 128$.
+
+If some component is of type (e8) with support $S'$ ($8$ points):
+Lemma~\ref{lem:w8} caps it at $128$; the remaining $4$ points host at most
+the single cell $[12]\setminus S'$: total $\le 192$. (Two components of
+types e7/e8 cannot coexist: $7+7,7+8,8+8>12$.)
+
+Otherwise every component is pair-aligned. Their pairings live on disjoint
+supports; extend the union of the pairings arbitrarily to a full pairing
+$P$ of $[12]$ (the leftover point count is even). Every occupied cell is
+then $P$-aligned, and Theorem~\ref{thm:slice}(b) caps the configuration at
+$288$. Since $128,192<288$, a $288$-line even configuration must be of
+this slice-aligned kind.
+\end{proof}
+
+\begin{corollary}[the odd pair is unavoidable]\label{cor:oddpair}
+Every legal half-integer configuration with at least $289$ lines contains
+two occupied cells with odd overlap ($t\in\{1,3\}$, support overlap
+$|H\cap H'|\in\{5,7\}$). \textsc{(proven}, given the CP-SAT-\textsc{optimal}
+slice cap of Theorem~\ref{thm:slice}(b)\textsc{)}
+\end{corollary}
+
+\begin{corollary}[equivalence]\label{cor:equiv}
+The odd-overlap lemma (``every legal configuration containing an occupied
+odd-overlap cell pair has at most $288$ lines'') is \emph{equivalent} to
+$\alpha(U)=288$. \textsc{(proven}, given the CP-SAT-\textsc{optimal}
+slice cap of Theorem~\ref{thm:slice}(b)\textsc{)}
+\end{corollary}
+
+\begin{proof}
+If the lemma holds, take any configuration with $\ge289$ lines: by the
+lemma its occupied cells form an even family, and
+Theorem~\ref{thm:evenclosure} caps it at $288$ --- contradiction; with the
+$288$ witness, $\alpha(U)=288$. The converse is trivial.
+\end{proof}
+
+\begin{remark}[a repaired hole in the roadmap]\label{rem:roadmap}
+Our campaign roadmap (artifact \texttt{K2\_novelty.json}, consequences
+field --- a campaign artifact, not shipped with this note and distinct
+from the shipped \texttt{certs/novelty.json}) asserted at cell level that a configuration escaping every slice
+must contain an odd-overlap cell pair. That assertion is \emph{false}: the
+e7 and e8 families of Theorem~\ref{thm:evenclass} are even families
+aligned with no pairing --- cell-level counterexamples. The even-closure
+theorem repairs the roadmap: what is true is not that even families are
+slice-aligned, but that the non-slice-aligned even families (e7/e8) are
+\emph{small} --- capped at $128/192$ lines, far below $288$. An earlier
+draft of this note flagged the slice-like claim as an unproven heuristic;
+Theorem~\ref{thm:evenclosure} replaces it.
+\end{remark}
+
+\subsection{Cell triples: Venn structure, not overlap type, sets the
+cap}\label{sec:triples}
+
+The pair cap ($64$) and the localization caps invite a systematic triple
+study. Cell triples fall into exactly $25$ orbits under $S_{12}$, and the
+canonicalized Venn signature
+$\bigl(|A\cap B\cap C|,\,|A\cap B\setminus C|,\,|A\cap C\setminus B|,\,
+|B\cap C\setminus A|\bigr)$ is a complete orbit invariant.
+\textsc{(machine}: exhaustive orbit enumeration, \texttt{stage4b.py}%
+\textsc{)} The exact maximum independent set of each $192$-line triple
+world:
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+triple class & orbits & exact cap & status \\
+\midrule
+all three pairwise disjoint & $1$ & $192$ & trivial \textsc{(proven)} \\
+some disjoint pair, not all & $7$ & $128$ & \textsc{(proven)},
+Prop.~\ref{prop:disjointpair} \\
+all overlapping, $|A\cup B\cup C|\le7$ & $10$ & $64$ & localization
+(Lemmas~\ref{lem:w6}--\ref{lem:w7}) \\
+all overlapping, $|A\cup B\cup C|\ge8$, non-sunflower & $4$ & $64$ &
+\textsc{(machine)}, exact B\&B \\
+point-core sunflower, $t$'s $(1,1,1)$, union $10$ & $1$ & $80$ &
+\textsc{(machine)}, exact \\
+pair-core sunflower, $t$'s $(2,2,2)$, union $8$ & $1$ & $80$ &
+\textsc{(machine)}, exact \\
+Venn $(1,0,0,1)$, $t$'s $(1,1,2)$, union $9$ & $1$ & $[78,80]$ &
+\textsc{(open)} interval \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{proposition}\label{prop:disjointpair}
+If a triple $\{A,B,C\}$ contains a disjoint pair, say $A\cap B=\emptyset$,
+but is not totally disjoint, then $n_A+n_B+n_C\le 128$, attained
+($n_C=0$, $A,B$ full). \textsc{(proven)}
+\end{proposition}
+
+\begin{proof}
+If $C$ meets both: Corollary~\ref{cor:kappa} on both overlapping pairs
+gives $(n_A+n_C)+(n_B+n_C)\le128$, so $n_A+n_B+n_C\le128-n_C\le128$. If
+$C$ meets only $A$: $n_B\le64$ and $n_A+n_C\le64$.
+\end{proof}
+
+The \textsc{machine} rows are exact branch-and-bound with verified
+independence of the optimal witnesses; the $80$-caps were re-verified for
+this note in under a second each. The one \textsc{open} entry has a
+verified $78$-line witness and a $\delta$-class upper bound of $80$. The
+structural moral is recorded because it killed a natural proof strategy:
+\emph{the multiset of pairwise overlap types does not determine the
+cap} --- $(1,1,1)$ occurs with cap $64$ (Venn $(0,1,1,1)$) and with cap
+$80$ (the point-core sunflower). Three of the $25$ classes beat $64$: the
+two sunflowers with disjoint petals (both exactly $80$) and the
+\textsc{open} Venn $(1,0,0,1)$ class, whose verified $78$-line witness
+already exceeds $64$; any cut library built on
+pairs and triples must carry the $80$'s.
+
+\subsection{The LP barrier: why cut aggregation cannot finish}
+
+The ladder (Section~\ref{sec:ladder}), the pair caps, the localization
+caps, the triple caps, and the slice cuts are all \emph{valid occupancy
+inequalities}: linear inequalities $\sum_A c_A n_A\le b$ satisfied by the
+occupancy vector of every legal configuration. It is natural to hope that
+some finite library of such certified facts, fed to an LP, proves
+$\alpha(U)\le 288$. That hope is provably dead:
+
+\begin{theorem}[LP barrier]\label{thm:barrier}
+Let $\mathcal I$ be \emph{any} family of valid occupancy inequalities in
+which each member has at most $109$ cells with positive coefficient. Then
+the linear program $\max\sum_A n_A$ subject to $\mathcal I$ and the box
+constraints $0\le n_A\le 64$ has optimum at least
+$31{,}680/109>290.6$. In particular no such family certifies
+$\alpha(U)\le 289$, let alone $288$ --- where a family \emph{certifies}
+$\alpha(U)\le b$ if its LP optimum is below $b+1$, so that flooring the
+optimum proves the integer bound (the convention of the $\vartheta$
+ceilings of Section~\ref{sec:sweep}); an optimum above $290.6$ leaves
+every $b\le 289$ unreachable. \textsc{(proven)}
+\end{theorem}
+
+\begin{proof}
+Consider the uniform fractional point $x_A\equiv 64/109$, which satisfies
+the box constraints. Let $\sum_A c_A n_A\le b$ be a valid inequality whose
+positive support $\mathcal S=\{A:c_A>0\}$ has $|\mathcal S|\le109$ (if
+$\mathcal S=\emptyset$, validity on the empty configuration gives $b\ge0$
+and the point trivially satisfies it). For each $A\in\mathcal S$ the
+single-cell configuration ``cell $A$ full'' is legal, so $64\,c_A\le b$;
+averaging over $\mathcal S$,
+\[
+\sum_A c_A x_A\;\le\;\sum_{A\in\mathcal S}c_A\,\frac{64}{109}
+\;\le\;\sum_{A\in\mathcal S}c_A\,\frac{64}{|\mathcal S|}
+\;=\;\frac1{|\mathcal S|}\sum_{A\in\mathcal S}64\,c_A\;\le\;b .
+\]
+So $x$ is feasible, with objective $495\cdot64/109=31{,}680/109\approx
+290.64$.
+\end{proof}
+
+\begin{corollary}\label{cor:barriercuts}
+Every cut family in this note has positive support far below the
+threshold: pair cuts ($2$ cells), triple cuts ($3$), $W_{\le6}/W_7$
+localization ($\le35$), e7/e8 cuts ($7/14$), slice cuts ($15$), ladder
+cuts through level $3$ ($\le18$). An LP over all cuts of support $\le35$
+has optimum $\ge 31{,}680/35>905$; adding the $W_8$ cuts (support $70$)
+still leaves $\ge452$. Any LP/cutting-plane proof of $\alpha(U)\le288$
+must use valid inequalities whose positive support covers at least $110$
+of the $495$ cells --- and since $31{,}680/110=288$ exactly, support-$110$
+families are the theoretical minimum. \textsc{(proven)}
+\end{corollary}
+
+Two honest remarks. First, the barrier binds the \emph{LP aggregation}
+paradigm: a combinatorial case analysis may of course still use
+small-support facts (the ladder's own Theorem~\ref{thm:ladder} is such a
+statement, and complete orbit enumeration to the diameter would still
+constitute a proof --- the barrier says the enumeration cannot be
+short-circuited by an LP). Second, the barrier explains
+Table~\ref{tab:loose}'s third row structurally: the $10{,}395$ slice cuts
+have support $15$ each, so no reweighting of them could ever certify
+anything below $31{,}680/15=2112$; their LP value $9504$ is not a solver
+failure but a theorem-level impossibility.
+
+\subsection{The star reduction: a global inequality that passes the
+barrier}\label{sec:star}
+
+The barrier demands valid inequalities with large support. There is a
+natural family: one inequality per \emph{coordinate}.
+
+For $x\in[12]$ let the \emph{star} of $x$ be the set of lines whose cell
+(defect $4$-set) contains $x$: $\mathrm{star}_x=\{(A,u):x\in A\}$,
+comprising the $\binom{11}3=165$ cells through $x$ and
+$165\cdot64=10{,}560$ lines. Define the \emph{$U_{11}$ world} as the
+half-integer world on ground set $[11]$: cells the $165$ three-subsets
+$A'$ of $[11]$ (defects of $8$-point supports), $64$ even-sign lines per
+cell, conflict iff $\bigl|\sum_{i\in H\cap H'}\varepsilon_i
+\varepsilon'_i\bigr|\ge5$.
+
+\begin{theorem}[star reduction]\label{thm:star}
+\begin{itemize}
+\item[\textup{(i)}] For every $x$, the induced conflict graph on
+$\mathrm{star}_x$ is isomorphic to the $U_{11}$ world via
+$A\mapsto A\setminus\{x\}$: the conflict predicate never reads the
+coordinate $x$. In $U_{11}$ every cell pair has common support
+$r=5+|A'\cap B'|\in\{5,6,7\}$ --- there are \emph{no} free cell pairs, so
+the pair cap $n_{A'}+n_{B'}\le64$ binds on all
+$\binom{165}2$ pairs, and the entire cut library of this section
+transfers verbatim. \textsc{(proven)}
+\item[\textup{(ii)}] Every line lies in exactly $4$ stars, so for any
+legal configuration $S$,
+$4|S|=\sum_{x\in[12]}|S\cap\mathrm{star}_x|\le12\,\alpha(U_{11})$, i.e.
+\[
+\alpha(U_{12})\;\le\;3\,\alpha(U_{11}).
+\]
+\textsc{(proven)}
+\item[\textup{(iii)}] The $288$-line witness of Theorem~\ref{thm:exists}
+meets every star in exactly $96$ lines. \textsc{(machine}: recomputed from
+the shipped witness certificate by \texttt{make verify-structure};
+uniform $96\times12$\textsc{)} Consequently $\alpha(U_{11})\ge96$, and the
+reduction (ii) is exactly tight on the witness: $4\cdot288=12\cdot96$.
+\item[\textup{(iv)}] If $\alpha(U_{11})\le 96$ then $\alpha(U_{12})=288$:
+the odd-overlap lemma holds, the ladder's gap closes, and the
+$W_2\cup U$ architecture is globally sealed at $420$ lines.
+\textsc{(proven}, given (ii) and the witness\textsc{)}
+\item[\textup{(v)}] Conversely, by pigeonhole any $289$-line
+configuration meets some star in at least
+$\lceil 4\cdot289/12\rceil=97$ lines: \emph{every} record attempt in the
+half-integer world contains a $97$-line $U_{11}$ configuration.
+\textsc{(proven)}
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+(i) A cell $A\ni x$ has support $H=[12]\setminus A\subseteq
+[12]\setminus\{x\}$; identifying $[12]\setminus\{x\}$ with $[11]$, cells
+through $x$ correspond bijectively to $3$-subsets $A'=A\setminus\{x\}$,
+supports and sign classes are preserved, and the conflict predicate
+depends only on $H\cap H'\subseteq[11]$ and the sign vectors. For the
+overlap census: $|A'\cap B'|\in\{0,1,2\}$ gives
+$r=11-|A'\cup B'|=5+|A'\cap B'|\ge5$. (ii) $|A|=4$: a line's cell contains
+exactly $4$ coordinates, so the line lies in exactly $4$ stars; each
+$S\cap\mathrm{star}_x$ is independent in the $\mathrm{star}_x$ world,
+hence of size $\le\alpha(U_{11})$ by (i). (iii) is a finite recomputation
+from \texttt{certs/config420.json}. (iv) $288\le\alpha(U_{12})
+\le3\cdot96=288$. (v) If all twelve stars held $\le96$, the sum
+$4\cdot289=1156>12\cdot96=1152$ fails.
+\end{proof}
+
+\begin{remark}[the star cuts pass the barrier]
+Each star cut $\sum_{A\ni x}n_A\le\alpha(U_{11})$ has positive support
+$165\ge110$ cells --- the first valid family we possess on the far side of
+Theorem~\ref{thm:barrier} --- and if the cap $96$ holds, the twelve star
+cuts alone close the world: $4\sum_A n_A=\sum_x\sum_{A\ni x}n_A
+\le12\cdot96$ gives exactly $288$. The uniform witness saturation (iii)
+shows they are tight, so no slack is wasted: the star family is not
+merely sufficient, it is exactly calibrated.
+\end{remark}
+
+The section's conclusion is a genuine reduction of both open questions of
+this note to one:
+
+\begin{problem}[the $U_{11}$ problem]\label{prob:u11}
+Is $\alpha(U_{11})\le 96$? Equivalently (given the witness): does the
+$10{,}560$-line, $165$-cell $U_{11}$ world --- three times smaller than
+$U_{12}$, with no free cell pairs --- have independence number exactly
+$96$? A proof closes $\alpha(U_{12})=288$ and hence the odd-overlap lemma
+and the $420$-line global cap (Theorem~\ref{thm:star}(iv)); a $97$-line
+$U_{11}$ witness would refute the star route and is a \emph{necessary}
+ingredient of any $842$-point record in this architecture
+(Theorem~\ref{thm:star}(v)), though not by itself sufficient.
+\textsc{(open)}
+\end{problem}
+
+\section{The architecture sweep: every enumerable frame family closes
+low}\label{sec:sweep}
+
+The slice-closure results seal one architecture. In parallel we ran a
+closing sweep over every other frame architecture we could enumerate, for
+both record targets ($303$ lines $=606$ points in $\RR^{11}$, beating
+$604$; $421$ lines $=842$ points in $\RR^{12}$, beating $841$). Each
+candidate family is compiled to an exact conflict graph over its ring
+($\QQ(\sqrt2)$ or $\QQ(\sqrt5)$; the adjudicator works over $\QQ(\sqrt d)$
+for square-free $d$ and passes an adversarial self-test), then closed by
+one of: exact ILP duality (HiGHS \cite{HiGHS18}, integer optimal), or a
+\emph{certified} Lov\'asz $\vartheta$ bound \cite{Lovasz79}. The
+$\vartheta$ certification works as follows
+(\texttt{kissing\_frame\_adjudicate.py}, a campaign tool that is not part
+of this repository): the dual
+$\vartheta(G)=\min_Y\lambda_{\max}(J+Y)$ ($Y$ symmetric, supported on
+edges) is solved numerically; $Y$ is then rounded to dyadic rationals
+(denominator $2^{16}$) so that $B=J+Y$ is \emph{exactly} representable in
+binary floating point, and a dyadic $t_{\mathrm{cert}}\ge
+\lambda_{\max}(B)$ is certified by a shifted floating-point Cholesky
+factorization of $t_{\mathrm{cert}}I-B$: the factorization succeeds with a
+shift of $2^{-16}$, which exceeds $100$ times the Demmel--Rump rounding
+radius $\gamma\lVert M\rVert_\infty$, $\gamma=(n{+}1)u/(1-(n{+}1)u)$,
+$u=2^{-53}$, so $\lambda_{\min}(t_{\mathrm{cert}}I-B)>0$ rigorously (up to
+IEEE-754 conformance of the hardware). Since any such $B$ is a feasible
+$\vartheta$ dual matrix, $\alpha(G)\le\vartheta(G)\le t_{\mathrm{cert}}$,
+and the stated integer ceiling $\lfloor t_{\mathrm{cert}}\rfloor$ is a
+theorem for the graph, not a solver report.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}llllrrll@{}}
+\toprule
+cand. & $d$ & family & ring & $|V|$ & $|E|$ & lines: found / ceiling & verdict \\
+\midrule
+B2r & $11$ & $D_4$-root frame $\RR^7{\oplus}\RR^4$, $45^\circ$-rotated & $\QQ(\sqrt2)$ & $803$ & $13{,}860$ & $87$ / $\le94$ ($\vartheta$) & closed \\
+B3 & $11$ & icosahedral $3$-frame, pure-$\sqrt5$ sector & $\QQ(\sqrt5)$ & $574$ & $8{,}960$ & $126$ / $=126$ (ILP) & closed \\
+B5 & $11$ & Steiner $S(4,5,11)$ weight-$5$ world, $M_{11}$ & $\QQ(\sqrt5)$ & $1067$ & $66{,}000$ & $66$ / $\le77$ ($\vartheta$) & closed \\
+B7 & $11$ & $D_5$-root frame $\RR^6{\oplus}\RR^5$, $45^\circ$-rotated & $\QQ(\sqrt2)$ & $746$ & $11{,}060$ & $70$ / $=70$ (ILP) & closed \\
+K5 & $12$ & $8{+}4$ split modular, joint glue$\leftrightarrow$side & $\QQ(\sqrt2)$ & $1988$ & --- & $324$ / $=324$ (ILP) & closed \\
+\bottomrule
+\end{tabular}
+\caption{The Round-88 closing sweep (artifact
+\texttt{SWEEP\_VERDICTS.json}). Targets: $303$ lines ($d=11$),
+$421$ lines ($d=12$). ``$=$'' entries are exact integer optima
+(HiGHS primal $=$ dual); ``$\le$'' entries are certified $\vartheta$
+ceilings with the best independent set found alongside. Numeric
+$\vartheta$ values before flooring: $94.14$ (B2r), $77.0$ (B5),
+$80.76$ (B7, superseded by the exact ILP $70$). K5's pool is an induced
+subgraph of the grand mixed graph of Section~\ref{sec:alphabets}, so its
+optimum is also $\le$ the $420$ of that world.}
+\label{tab:sweep}
+\end{table}
+
+Together with the earlier waves --- Bianchi pair-system neighborhood
+(d11) closed rigorously at $302$ over all $30$ enumerated pair systems;
+Hadamard weight-$8$ companion (d11) at $267$; the Bianchi-port (d12) at
+$359$; the unrotated $D_4$ frame (d11) at $299$; and the grand mixed world
+(d12) at $420$ (this note) --- every frame architecture we can currently
+write down is closed far below its target. Two rigorous $d=11$ anchors
+frame the picture: the pure whole-cell world caps at
+$11+8\cdot D(11,4,3)=11+8\cdot35=291$ (with $D(11,4,3)=35$ exact by ILP),
+and the Bianchi-type extremum over all enumerated pair-system frames is
+$302$ --- precisely the published record's architecture, sitting at the
+top of its own family.
+
+\emph{The anti-correlation.} The sweep's structural lesson is that the
+frame-richness lever points the wrong way. A richer frame (a larger line
+system installed on a coordinate block, e.g.\ a rotated root system)
+gains its own lines but forces irrationality or support collisions onto
+the ambient coordinates, thinning the weight-$4$ base world that supplies
+the bulk of any large configuration: the rotated $D_4$ frame family drops
+from $299$ (unrotated) to $\le94$ (rotated); the steepest frame gain in
+the sweep (B7, net $+15$ frame lines) leaves the thinnest base
+($15$ cells) and closes at $70$. Across all candidates the total is
+dominated by the surviving weight-$4$/half-integer base, never by the
+frame --- \emph{frame richness anti-correlates with total capacity}.
+Base-preserving mixing (the $W_2\cup U$ architecture of this note, which
+ties $420$) is the only family that even reached the known record tier.
+
+\section{Discussion and open problems}\label{sec:disc}
+
+\emph{What is new.} A second, provably non-isometric $420$-line antipodal
+configuration in $\RR^{12}$; the first (to our knowledge) built on partial
+cells, found by unbiased search over a mixed-shell world and then fully
+explained by an exact rotation certificate; slice-closure theorems that
+cap its entire architecture at the record tie; a machine-checked exclusion
+ladder localizing where any improvement must live; an exact structure
+theory for the half-integer world (pair structure lemma, even closure, the
+equivalence of Corollary~\ref{cor:equiv}); an LP barrier theorem
+explaining why the cut paradigm cannot finish; a star reduction that
+collapses the frontier to the $U_{11}$ world; and a certified sweep that
+seals the enumerable alternatives.
+
+\emph{What is honestly open.}
+\begin{enumerate}
+\item \textbf{The $U_{11}$ problem (headline): is $\alpha(U_{11})\le96$?}
+(Problem~\ref{prob:u11}.) By Theorem~\ref{thm:star} this single question
+now carries both halves of the frontier: a proof gives
+$\alpha(U_{12})=288$ --- the odd-overlap lemma
+(Corollary~\ref{cor:equiv}), the global $420$-line cap for the
+$W_2\cup U$ architecture, and the retirement of the ladder's gap --- while
+a $97$-line $U_{11}$ witness is a necessary ingredient of any $842$-point
+record in this architecture. The $U_{11}$ world is three times smaller
+than $U_{12}$ ($10{,}560$ lines, $165$ cells), has no free cell pairs, and
+inherits the entire certified cut library of Section~\ref{sec:odd}
+($\kappa=64$ on every pair, $t{=}3$ rigidity $57$, localization
+$64/64/128$, sunflower $80$'s, e7/e8 caps $64/128$). The natural attack is
+two-sided: a KaMIS lower hunt for $97$, and a CP-SAT ladder on $U_{11}$
+seeded with those cuts --- mindful that Theorem~\ref{thm:barrier} (which
+applies verbatim to $U_{11}$: certifying $\alpha(U_{11})\le96$ requires
+positive support at least $\lceil 10{,}560/97\rceil=109$ of the $165$
+cells) again forbids a small-support LP finish there.
+\item \textbf{The odd-overlap lemma, now an equivalence.} Prove: every
+legal half-integer configuration containing a cell pair with
+$|H\cap H'|\in\{5,7\}$ has at most $288$ lines. Section~\ref{sec:odd}
+proved this is not merely sufficient but \emph{equivalent} to
+$\alpha(U)=288$ (Corollary~\ref{cor:equiv}), and that any $289$-line
+configuration must contain an occupied odd pair
+(Corollary~\ref{cor:oddpair}). The barrier theorem constrains the proof
+shape: no aggregation of the small-support facts we hold can do it; the
+star route (Problem~\ref{prob:u11}) is the one global inequality family
+known to be both valid and tight.
+\item \textbf{Orbit enumeration at levels $4$ and $5$.} Quadruple orbits
+are within reach ($18$--$21$-cell universes solve to \textsc{optimal} in
+minutes), and each further level shrinks the search region for a $289$;
+complete enumeration to the diameter would still constitute a proof.
+Theorem~\ref{thm:barrier} tempers the ambition: bounded-level ladder
+certificates are support-$\le(15{+}k)$ cuts, so no LP over them closes the
+world --- the enumeration must actually reach exhaustion, or be replaced
+by the $U_{11}$ route.
+\item \textbf{Global $\alpha(U)$ relaxations.} Is there any tractable
+relaxation adapted to the $64$-per-cell-pair conflict structure that beats
+the gaps of Table~\ref{tab:loose}? The barrier theorem sharpens the
+question: any useful valid-inequality family must have $\ge110$-cell
+positive support. The twelve star cuts are the first such family; finding
+a \emph{second}, independent one (weighted stars? spectral cuts on the
+$U_{11}$ quotient?) would over-determine the polytope near the witness and
+might close the gap without solving Problem~\ref{prob:u11} exactly.
+\item \textbf{The $842$ frontier.} An antipodal $842$-point configuration
+means $421$ lines at coherence $\tfrac12$; the LP ceiling is $614$ lines
+\cite{RussellLines26}, so geometry leaves $46\%$ headroom, while every
+architecture in this note and its predecessors closes at $\le420$. The
+enumerable-frame space is exhausted, not the problem: the biquadratic
+$\QQ(\sqrt2,\sqrt5)$ hybrid sector (icosahedral frames mixed with root
+alphabets) is untested for lack of exact tooling, and a closed-form
+negative theorem for the weight-$4$-based design space (``no such
+architecture reaches the target'') is supported by every data point but
+unproven. Within the half-integer route specifically, the record hunt is
+now the $97$-in-$U_{11}$ hunt of Problem~\ref{prob:u11}.
+\item \textbf{Classification at $420$.} Are the classical configuration
+and the configuration of Theorem~\ref{thm:exists} the only $420$-line
+systems in $\RR^{12}$ up to isometry? The rotation certificate shows both
+live in the integer world up to isometry; a classification of maximum
+antipodal configurations there (whole and partial cells) may be within
+reach of the counting method, now supplemented by the even-classification
+trichotomy of Theorem~\ref{thm:evenclass}.
+\end{enumerate}
+
+\emph{Relation to the record.} Nothing in this note improves $k(12)\ge841$
+\cite{TAY26}; the new configuration ties the \emph{antipodal} record of
+$840$ points with a second, inequivalent object, and the closure theorems
+say that this entire corner of the landscape is now understood exactly:
+$421$ needs either odd-overlap mixing in the half-integer world ---
+provably unavoidable (Corollary~\ref{cor:oddpair}), against the ladder's
+evidence, and now concentrated in the single question of
+Problem~\ref{prob:u11} --- or an architecture nobody has written down
+yet.
+
+\appendix
+
+\section{Reproduction and verification}\label{sec:repro}
+
+The repository accompanying this note contains
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\texttt{certs/config420.json} & the $420$-line witness (line descriptions only) \\
+\texttt{certs/rotation.json} & the pairing of Theorem~\ref{thm:rotation}, nothing else \\
+\texttt{certs/novelty.json} & the family parameters of Theorem~\ref{thm:novelty}, nothing else \\
+\texttt{certs/receipts/} & solver receipts: CP-SAT ladder levels $0$--$3$ \\
+& (level $1$ inside the v2 decision record), \\
+& search beyond level $3$, the $288$ warm start, \\
+& the v2 decision record, the edge census, and \\
+& the Table~\ref{tab:sweep} verdicts (\texttt{SWEEP\_VERDICTS.json}) \\
+\texttt{scripts/verify\_420.py} & packing + counts checker (stdlib; no floats) \\
+\texttt{scripts/verify\_rotation.py} & $\QQ(\sqrt2)$ isometry + $A\cup W_4$ membership \\
+\texttt{scripts/verify\_novelty.py} & counting-theorem checker \\
+\texttt{scripts/verify\_structure.py} & Section~\ref{sec:odd} \textsc{machine}-facts checker \\
+\texttt{scripts/selftest.py} & adversarial test: corruptions must fail \\
+\texttt{scripts/oddlemma/} & the lemma-hunt exact toolkit (verbatim) \\
+\texttt{Makefile} & \texttt{verify} / \texttt{verify-structure} / \texttt{selftest} / \texttt{pdf} \\
+\end{tabular}
+\end{center}
+
+\texttt{make verify} recomputes, in exact integer and $\ZZ[\sqrt2]$
+arithmetic with nothing echoed from the certificate files:
+(i) all $87{,}990$ pairwise predicates \eqref{eq:predicate} for the
+witness, its composition, cell table and histogram
+(Theorem~\ref{thm:exists});
+(ii) the histogram formulas and the five-step contradiction of
+Theorem~\ref{thm:novelty}, with every interaction constant derived by
+finite computation inside the checker;
+(iii) the rotation image of every witness line under $T_{P_0}$, the
+$60^\circ$ bound on every image pair, and the
+$47{+}8$ cell census (Theorem~\ref{thm:rotation}).
+\texttt{make verify-structure} additionally recomputes every
+\textsc{machine} entry of Section~\ref{sec:odd} from the conflict
+predicate alone (structure-lemma censuses $256/128/512$, pair cap
+$\kappa=64$, $t{=}3$ rigidity $57$ with folded-$7$-cube connectivity $7$,
+$W_7$ and corner localization, e7/e8 caps $64/128$, the sunflower $80$'s,
+the uniform $96{\times}12$ star saturation of the witness, and the
+$U_{11}$-world census), in about five seconds of stdlib branch-and-bound.
+The CP-SAT \textsc{optimal} statuses underlying
+Theorems~\ref{thm:slice}(b) and \ref{thm:ladder} and the certified
+$\vartheta$/ILP ceilings of Table~\ref{tab:sweep} are solver results: the
+receipts ship with the repository (\texttt{certs/receipts/}), but they are
+not stdlib-recomputable and are labeled accordingly wherever they are
+used. \texttt{make selftest} feeds the checkers corrupted variants
+(perturbed vectors, deleted lines, doctored histograms, a wrong pairing,
+sign-flipped rotation blocks) and passes only if every one is rejected
+with the expected diagnostic.
+
+\begin{thebibliography}{99}
+
+\bibitem{AlphaEvolve25}
+A.~Novikov, N.~V\~u, M.~Eisenberger, E.~Dupont, P.-S.~Huang,
+A.~Z.~Wagner, S.~Shirobokov, B.~Kozlovskii, F.~J.~R.~Ruiz,
+A.~Mehrabian, M.~P.~Kumar, A.~See, S.~Chaudhuri, G.~Holland,
+A.~Davies, S.~Nowozin, P.~Kohli, M.~Balog,
+AlphaEvolve: a coding agent for scientific and algorithmic discovery,
+technical report, Google DeepMind, arXiv:2506.13131 (2025).
+
+\bibitem{Bianchi26}
+M.~Bianchi, Y.~Kwon, A.~Pappu, R.~Zou,
+Harnessing the collective intelligence of AI agents in the wild for new
+discoveries, arXiv:2606.10402 (2026).
+
+\bibitem{BDM15}
+P.~Boyvalenkov, S.~Dodunekov, O.~Musin,
+Kissing numbers --- a survey, arXiv:1507.03631 (2015); the $n\le24$
+lower-bound table follows \cite[Table~1.5]{SPLAG}.
+
+\bibitem{BSSS90}
+A.~E.~Brouwer, J.~B.~Shearer, N.~J.~A.~Sloane, W.~D.~Smith,
+A new table of constant weight codes,
+\emph{IEEE Trans. Inform. Theory} \textbf{36} (1990), 1334--1380;
+updated tables at \url{https://aeb.win.tue.nl/codes/Andw.html}
+($A(12,4,4)=51$, exact).
+
+\bibitem{BrouwerKoolen09}
+A.~E.~Brouwer, J.~H.~Koolen,
+The vertex-connectivity of a distance-regular graph,
+\emph{European J. Combin.} \textbf{30} (2009), 668--673.
+
+\bibitem{SPLAG}
+J.~H.~Conway, N.~J.~A.~Sloane,
+\emph{Sphere Packings, Lattices and Groups}, 3rd ed.,
+Grundlehren der mathematischen Wissenschaften 290, Springer, 1999.
+
+\bibitem{DGS75}
+P.~Delsarte, J.-M.~Goethals, J.~J.~Seidel,
+Bounds for systems of lines, and Jacobi polynomials,
+\emph{Philips Res. Rep.} \textbf{30} (1975), 91--105.
+
+\bibitem{Hanani60}
+H.~Hanani,
+On quadruple systems,
+\emph{Canad. J. Math.} \textbf{12} (1960), 145--157.
+
+\bibitem{HartmanPhelps92}
+A.~Hartman, K.~T.~Phelps,
+Steiner quadruple systems,
+in: J.~H.~Dinitz, D.~R.~Stinson (eds.),
+\emph{Contemporary Design Theory: A Collection of Surveys},
+Wiley, 1992, 205--240.
+
+\bibitem{HiGHS18}
+Q.~Huangfu, J.~A.~J.~Hall,
+Parallelizing the dual revised simplex method,
+\emph{Math. Program. Comput.} \textbf{10} (2018), 119--142.
+
+\bibitem{KaMIS17}
+S.~Lamm, P.~Sanders, C.~Schulz, D.~Strash, R.~F.~Werneck,
+Finding near-optimal independent sets at scale,
+\emph{J. Heuristics} \textbf{23} (2017), 207--229.
+
+\bibitem{deLaatLeijenhorst24}
+N.~Leijenhorst, D.~de~Laat,
+Solving clustered low-rank semidefinite programs arising from polynomial
+optimization, \emph{Math. Program. Comput.} \textbf{16} (2024), 503--534,
+arXiv:2202.12077; upper-bound values as tabulated by H.~Cohn,
+\url{https://cohn.mit.edu/kissing-numbers}.
+
+\bibitem{Lovasz79}
+L.~Lov\'asz,
+On the Shannon capacity of a graph,
+\emph{IEEE Trans. Inform. Theory} \textbf{25} (1979), 1--7.
+
+\bibitem{CPSAT}
+L.~Perron, F.~Didier,
+CP-SAT (v9), Google,
+\url{https://developers.google.com/optimization/cp/cp_solver/}.
+
+\bibitem{PlessSloane75}
+V.~Pless, N.~J.~A.~Sloane,
+On the classification and enumeration of self-dual codes,
+\emph{J. Combin. Theory Ser.~A} \textbf{18} (1975), 313--335.
+
+\bibitem{RussellErdos26}
+K.~Russell,
+A tighter upper bound for the Erd\H{o}s minimum overlap constant, with
+machine-verified feasibility certificates for White's lower-bound program,
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.21194860}{doi:10.5281/zenodo.21194860}.
+
+\bibitem{RussellLines26}
+K.~Russell,
+Upper bounds for sixty-degree line systems and antipodal kissing
+configurations in dimensions 11 and 12, with exact rational certificates,
+Zenodo (2026), \href{https://doi.org/10.5281/zenodo.21285878}{doi:10.5281/zenodo.21285878}.
+
+\bibitem{TAY26}
+R.~Takhanov, Z.~Assylbekov, S.~Yun,
+Structure of kissing arrangements in $\mathbb{R}^{12}$ and a place for the
+841st sphere, arXiv:2606.18984 (2026).
+
+\end{thebibliography}
+
+\end{document}

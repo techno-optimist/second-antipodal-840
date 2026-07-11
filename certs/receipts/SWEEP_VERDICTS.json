@@ -1,0 +1,153 @@
+{
+  "_doc": "Foundry closing-sweep verdicts (Round 88) -- exhaust the enumerable frame architectures for the d11-605 / d12-842 kissing records.",
+  "date": "2026-07-10",
+  "targets": {
+    "d11": "TOTAL >= 303 lines -> 606 pts -> k(11)>=605 (record 604)",
+    "d12": "TOTAL >= 421 lines -> 842 pts -> k(12)>=842 (record 841)"
+  },
+  "adjudicator": "arena/workspace/kissing_frame_adjudicate.py (ring Q(sqrt d) generalized; certified-theta KILL; joint mode; intra-cell assertion; --selftest PASS)",
+  "candidates": {
+    "B2r": {
+      "candidate": "B2r",
+      "dim": 11,
+      "family": "D4-root frame R^7(+)R^4, 45deg-rotated (red-team fix)",
+      "ring_d": 2,
+      "note": "genuinely Q(sqrt2)-irrational hybrids; rotation destroys integer weight-4 richness",
+      "target_lines": 303,
+      "graph": {
+        "n": 803,
+        "m": 13860
+      },
+      "theta_numeric": 94.1356,
+      "theta_certified_upper": 94,
+      "MIS_lower": 87,
+      "MIS_upper": 94,
+      "MIS_exact": false,
+      "TOTAL_lower": 87,
+      "TOTAL_upper": 94,
+      "points_if_record": 174,
+      "upper_source": "certified Lovasz-theta (verified Cholesky)",
+      "verdict": "CLOSED",
+      "method": "theta+HiGHS-dual+KaMIS"
+    },
+    "B3": {
+      "candidate": "B3",
+      "dim": 11,
+      "family": "icosahedral 3-frame over Q(sqrt5), t=3",
+      "ring_d": 5,
+      "note": "PURE Q(sqrt5) sector (axes+icosa+weight-4 base); sqrt2 hybrids are biquadratic Q(sqrt2,sqrt5) -> tool-blocked",
+      "target_lines": 303,
+      "graph": {
+        "n": 574,
+        "m": 8960
+      },
+      "theta_numeric": 126.0,
+      "theta_certified_upper": 126,
+      "MIS_lower": 126,
+      "MIS_upper": 126,
+      "MIS_exact": true,
+      "TOTAL_lower": 126,
+      "TOTAL_upper": 126,
+      "points_if_record": 252,
+      "upper_source": "HiGHS ILP dual (integer)",
+      "verdict": "CLOSED",
+      "method": "theta+HiGHS-exact+KaMIS"
+    },
+    "B5": {
+      "candidate": "B5",
+      "dim": 11,
+      "family": "Steiner S(4,5,11) weight-5 world, M11-symmetric, k=0",
+      "ring_d": 5,
+      "note": "66 blocks x 16 sign-lines (1/sqrt5) + 11 axes",
+      "target_lines": 303,
+      "graph": {
+        "n": 1067,
+        "m": 66000
+      },
+      "theta_numeric": 77.0,
+      "theta_certified_upper": 77,
+      "MIS_lower": 66,
+      "MIS_upper": 77,
+      "MIS_exact": false,
+      "TOTAL_lower": 66,
+      "TOTAL_upper": 77,
+      "points_if_record": 132,
+      "upper_source": "certified Lovasz-theta (verified Cholesky)",
+      "verdict": "CLOSED",
+      "method": "theta+HiGHS-dual"
+    },
+    "B7": {
+      "candidate": "B7",
+      "dim": 11,
+      "family": "D5-root frame R^6(+)R^5, 45deg-rotated",
+      "ring_d": 2,
+      "note": "steepest frame gain (net+15) but thinnest base weight-4 world (15 cells)",
+      "target_lines": 303,
+      "graph": {
+        "n": 746,
+        "m": 11060
+      },
+      "theta_numeric": 80.7574,
+      "theta_certified_upper": 80,
+      "MIS_lower": 70,
+      "MIS_upper": 70,
+      "MIS_exact": true,
+      "TOTAL_lower": 70,
+      "TOTAL_upper": 70,
+      "points_if_record": 140,
+      "upper_source": "HiGHS ILP dual (integer)",
+      "verdict": "CLOSED",
+      "method": "theta+HiGHS-exact+KaMIS"
+    },
+    "K5": {
+      "candidate": "K5",
+      "dim": 12,
+      "family": "8+4 split modular, JOINT mode (bidirectional glue<->side)",
+      "ring_d": 2,
+      "note": "pool is an induced subgraph of K2 grand-mixed (A u W4 u U_[8]); MIS(K5) <= MIS(K2)",
+      "target_lines": 421,
+      "graph": {
+        "n": 1988,
+        "m": null
+      },
+      "theta_numeric": null,
+      "theta_certified_upper": null,
+      "MIS_lower": 324,
+      "MIS_upper": 324,
+      "MIS_exact": true,
+      "TOTAL_lower": 324,
+      "TOTAL_upper": 324,
+      "points_if_record": 648,
+      "upper_source": "HiGHS ILP dual (integer)",
+      "verdict": "CLOSED",
+      "method": "HiGHS-exact"
+    }
+  },
+  "B10_negative_theorem": "INCONCLUSIVE-as-theorem / EXHAUSTED-by-enumeration: rigorous whole-cell ceiling 291, Bianchi extremum 302 (proven), and every frame-upgrade family theta-closed <= 126 this sweep. The general negative theorem remains formally open (needs a rigorous distinct-damage floor); no realized pattern >= 303 exists across the enumerable space.",
+  "B10_rigorous_ceilings": {
+    "D_11_4_3": 35,
+    "D_11_4_3_status": "exact (max partial-Steiner packing of 4-subsets of [11], every triple <= once); verified HiGHS in foundry_wave2/B10 (scipy_status 0).",
+    "weight4_world_MIS": 280,
+    "weight4_world_MIS_note": "= 8 * D(11,4,3); rigorous upper on alpha_exp for ANY extension (exposure only removes weight-4 vertices, MIS is monotone).",
+    "pure_world_k0_m0": 291,
+    "pure_world_note": "11 axes + 280 = 291; the E = empty baseline.",
+    "bianchi_extremum": 302,
+    "bianchi_extremum_status": "RIGOROUS max over ALL Bianchi 1-factor / pair-system frames (foundry_wave2 B1: max_TOTAL_upper = 302, all_closed_rigorous = true)."
+  },
+  "already_dead_prior_waves": {
+    "B6_hadamard_weight8_d11": 267,
+    "K1_bianchi_port_d12": 359,
+    "B1_bianchi_pairsystems_d11": 302,
+    "K2_grand_mixed_d12": 420,
+    "B2_unrotated_d11": 299
+  },
+  "campaign_conclusion": "EXHAUSTED. Every enumerable frame architecture we can currently write down is CLOSED far below target (d11 frames cap <= 126 lines vs 303; d12 8+4 modular = 324 vs 421). Combined with the prior-wave closures (B1=302, B6=267, K1=359, K2=420, B2-unrotated=299), the weight-4-exposure + frame-extension + split-modular design space is sealed for every method we can bring. REMAINS OPEN: (i) the B3 sqrt2/sqrt5 BIQUADRATIC hybrid sector (needs Q(sqrt2,sqrt5) ring in the tool); (ii) a formal closed-form negative theorem (B10) -- exhausted empirically, not proven.",
+  "runtimes_approx": {
+    "B2r": "theta SDP ~15 min (803 v); KaMIS 87 in 240s; HiGHS bracket 400s",
+    "B3": "theta+MIS exact 126 in <1 min (574 v)",
+    "B5": "theta 77 in ~8 min (1067 v, 66k edges)",
+    "B7": "theta 80.76 ~1 min; HiGHS exact 70 <2 min (746 v)",
+    "K5": "HiGHS exact 324 in ~90s (1988 v)",
+    "note": "graphs built exactly on Mac; theta(cvxpy/SCS)+HiGHS local; KaMIS on DGX"
+  }
+}

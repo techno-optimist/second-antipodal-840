@@ -1,0 +1,72 @@
+{
+  "_doc": "K2 v2 exact decision instrument for alpha(U-world): 289 (world record) vs 288 (architecture closed). DGX /tmp/foundry_wave2/v2exact/. Round 87 endgame.",
+  "question": "Does U-world contain 289 mutually-compatible lines? (132 W2 + 289 U = 421 lines = 842 pts = WR over 841). Or alpha(U)=288?",
+  "verdict": "NO 289-WITNESS FOUND. alpha(U-world)=288 strongly evidenced (complete exact neighborhood proofs at levels 1-2 + broad search), but NOT globally machine-proven. No world record from this route on current evidence.",
+  "structural_reproduction_exact": {
+    "n_vertices": 31680,
+    "m_edges": 23569920,
+    "graph": "1488-regular (min==max==mean==1488), vertex-transitive",
+    "lambda_min": -50.0,
+    "lambda_max": 1488.0,
+    "kappa_per_conflicting_pair": 64,
+    "bipartite_conflict_edges": {"overlap5": 256, "overlap6": 128, "overlap7": 512},
+    "overlap_pair_counts": {"4_free": 17325, "5": 55440, "6": 41580, "7": 7920},
+    "note": "vertex = (8-support cell H, even-sign class); conflict iff |sum_{H&H'} s_i s'_i| >= 5; |cos| in {0,1/8,1/4,3/8,1/2}"
+  },
+  "encoding_chosen": {
+    "form": "structural per-cell-pair sign-dot blocks (64x64 |dot|>=5), NOT raw pairwise-from-file",
+    "full_graph_model_size": "31680 binary vars / 23,569,920 at-most-1 constraints",
+    "full_graph_status": "MEMORY-INFEASIBLE on the shared 121GB DGX (constraint proto build hit ~20GB RSS with only ~8GB free -> aborted to protect the CHRONOS stack). Bounded-universe models (<=~27 cells) build+solve fine.",
+    "warm_start": "288 U-witness accepted as AddHint in every bounded run; CP-SAT never improved on it in any universe."
+  },
+  "exact_results": {
+    "slice_only_15cells": {"MIS": 288, "status": "OPTIMAL", "note": "independently reconfirms slice-closure ceiling 288"},
+    "LEVEL1_complete": {
+      "claim": "MIS(P0-slice + any single foreign cell) = 288 for ALL 480 foreign cells",
+      "objective_histogram": {"288": 480}, "all_OPTIMAL": true,
+      "implication": "PROVEN: any 289 config uses >=2 cells outside the P0-slice"
+    },
+    "LEVEL2_complete": {
+      "claim": "MIS(P0-slice + any 2 foreign cells) = 288 for ALL 39 B6-orbit representatives (B6 = pairing stabilizer, order 46080)",
+      "n_orbit_reps": 39, "obj_opt_hist": {"(288,True)": 39},
+      "implication": "PROVEN: any 289 config uses >=3 cells outside the P0-slice"
+    },
+    "LEVEL3_complete": {
+      "claim": "MIS(P0-slice + any 3 foreign cells) = 288 for ALL 1284 B6-orbit representatives of foreign triples",
+      "n_orbit_reps": 1284,
+      "method": "scipy connected_components under a 3-element B6 generating set; VALIDATED (k=2 path reproduces the 39 pair-orbits exactly)",
+      "result": "all OPTIMAL=288 (see level3.json)",
+      "implication": "PROVEN: any 289 config uses >=4 cells outside the P0-slice"
+    },
+    "levels_4_5_6_sampled": {
+      "note": "randk.json: random samples of P0-slice + k foreign cells, ~120 universes each, all closing to (attempted) OPTIMAL; best=288 everywhere, 0 records",
+      "level4": {"opt288": 119, "timeout288": 1, "records": 0},
+      "level5": {"opt288": 118, "timeout288": 2, "records": 0},
+      "level6": {"opt288": 117, "timeout288": 3, "records": 0}
+    },
+    "twoslice_unions": {
+      "claim": "MIS(P0-slice UNION P1-slice) for all 31 pairings P1 within one element-swap of P0",
+      "best": 288, "n": 31, "opt_count": 24, "note": "richer than slice+2; still capped at 288"
+    },
+    "randk_level_3_to_6": {
+      "note": "random samples of P0-slice + k foreign cells, k in {3,4,5,6}; see randk.json",
+      "level3_sample": {"n": 120, "opt288": 119, "timeout288": 1, "records": 0}
+    },
+    "large_universe_hunts": {
+      "anchored_100cell": "no 289 across 20+ diverse near-slice universes (obj=288 every iter; CP-SAT LNS never improved the warm start)",
+      "free_100cell": "random cell universes reach only ~142 (structure-poor) -> confirms slice specialness"
+    }
+  },
+  "rigorous_but_loose_upper_bounds": {
+    "delsarte_angle_LP": {"bound": 583.68, "space": "lines in R^12 with |cos| in {0,1/8,1/4,3/8,1/2}", "converged": true},
+    "hoffman_ratio": {"bound": 1029.91, "formula": "n*(-lmin)/(d-lmin), d=1488, lmin=-50"},
+    "LP_with_all_slice_cuts": {"bound": 9504, "note": "x=0.3 uniform; each vertex in 315 of 10395 slice constraints"},
+    "conclusion": "Massive integrality gap (288 vs 583/1030/9504). No tractable convex relaxation reaches 289; a proof needs exact combinatorics or a bespoke counting theorem."
+  },
+  "why_not_proven": "Full exact MIS is intractable within budget: (a) the 23.5M-constraint model OOMs the shared box; (b) CP-SAT's dual bound is very weak here (301 at 45 cells / 60s) so it cannot certify OPTIMAL beyond ~27-cell universes; (c) all convex relaxations have a huge gap. The clean proof requires extending the slice-closure theorem to CROSS-slice (odd-overlap 5/7, |cos| in {1/8,3/8}) configurations.",
+  "next_step": {
+    "option_A_complete_ladder": "Enumerate B6-orbits of foreign TRIPLES/QUADS and prove MIS(slice+3), MIS(slice+4)=288 for each (universes 18-21 cells, close to OPTIMAL). Pushes the proven lower bound on #foreign-cells a 289 must use; combined with a diameter/structure argument could close it.",
+    "option_B_theorem": "Prove no independent set with odd-overlap (defect-intersection 1 or 3) cell pairs exceeds 288 -- the odd-eighth |cos| in {1/8,3/8} interaction is the only escape from the Hanani-capped even-overlap (A+W4) world.",
+    "runnable": "ssh dgx; cd /tmp/foundry_wave2/v2exact; write level3.py (foreign-triple B6 orbits via stabilizer chain) then: /tmp/sdpvenv/bin/python level3.py --seconds 120 --workers 8"
+  }
+}

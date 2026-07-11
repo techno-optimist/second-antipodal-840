@@ -1,0 +1,60 @@
+{
+  "_doc": "Odd-overlap lemma hunt (paper #6 session, 2026-07-10/11). All values exact. PROVEN = hand proof in the session report; MACHINE = exhaustive exact computation (stdlib B&B, scripts in this dir, seconds to reproduce); witnesses re-verified against the exact conflict predicate.",
+  "structure_lemma": {
+    "t1": "16 color classes (F_2^R/1, |R|=5), conflict iff same color, 16 x K44, 256 edges [PROVEN+MACHINE]",
+    "t2": "32 color classes (|R|=6), 32 x K22, 128 edges [PROVEN+MACHINE]",
+    "t3": "both cells biject to folded 7-cube F_2^7/1; conflict iff folded distance <= 1; 512 edges [PROVEN+MACHINE]"
+  },
+  "pair_caps": {
+    "kappa_all_overlap_types": 64,
+    "t3_both_nonempty_max": 57,
+    "t1_both_nonempty_max": 64,
+    "t2_both_nonempty_max": 64,
+    "t3_rigidity_proof": "Menger + folded-7-cube connectivity 7 (machine-verified by max-flow; also Brouwer-Mesner DRG connectivity = valency); witness (1,56)"
+  },
+  "localization": {
+    "W_le_6": {"cap": 64, "status": "PROVEN (per-delta-class total conflict)"},
+    "W7": {"cap": 64, "status": "MACHINE (16 delta-classes, each exact MIS 4; partition bound) + tight"},
+    "W8": {"cap": 128, "status": "PROVEN (covering: each cell in 4 of the 8 W7s => 4N <= 8*64) + tight"},
+    "full_cell_corollary": "n_A = 64 => config <= 64 + W8(H_A) = 192; so any config >= 193 has all n_A <= 63 [PROVEN]"
+  },
+  "even_side": {
+    "classification": "pairwise-even 4-set family: span components are d_2m (pair-aligned), e7 (Fano complements, 7 pts), e8 (extended Hamming wt-4 words, 8 pts) [PROVEN, self-contained]",
+    "kappa_e7_family": {"value": 64, "hand_bound": 224, "status": "64 MACHINE (subsumed by W7); <=224 PROVEN by kappa-averaging"},
+    "kappa_e8_family": {"value": 128, "status": "PROVEN <=128 via W8 covering; =128 by complementary pair; independent MACHINE confirmation via 8 delta-classes x 112-vertex exact MIS = 16 each"},
+    "even_closure": "any independent config with pairwise-even occupied cells <= 288; e7-branch <= 128, e8-branch <= 192; 288 only via pair-aligned (slice) [PROVEN given the slice-closure theorem]",
+    "corollary": "any >= 289 config contains an occupied odd pair; odd-overlap lemma <=> alpha(U12) = 288 [PROVEN]",
+    "roadmap_correction": "'outside every slice => odd pair' as stated in K2_novelty.json consequences is FALSE at the cell level (e7/e8 families are counterexamples); Even Closure repairs the decomposition"
+  },
+  "triple_orbit_table": {
+    "n_orbits": 25,
+    "complete_invariant": "Venn signature (|ABC|,|AB-C|,|AC-B|,|BC-A|) canonical over role permutations",
+    "totally_disjoint": {"orbits": 1, "MIS": 192, "status": "trivial"},
+    "one_disjoint_pair": {"orbits": 7, "MIS": 128, "status": "PROVEN (domination color-damage)"},
+    "all_overlapping_union_le_7": {"orbits": 10, "MIS": 64, "status": "PROVEN (localization), tight"},
+    "all_overlapping_union_ge_8": [
+      {"venn": [0,1,1,1], "ts": [1,1,1], "union": 9, "MIS": 64, "status": "MACHINE exact"},
+      {"venn": [0,1,1,2], "ts": [1,1,2], "union": 8, "MIS": 64, "status": "MACHINE exact (delta split)"},
+      {"venn": [1,0,0,2], "ts": [1,1,3], "union": 8, "MIS": 64, "status": "MACHINE exact (delta split)"},
+      {"venn": [1,0,1,1], "ts": [1,2,2], "union": 8, "MIS": 64, "status": "MACHINE exact (delta split)"},
+      {"venn": [1,0,0,0], "ts": [1,1,1], "union": 10, "MIS": 80, "status": "MACHINE exact (upper 80 delta split + verified 80 witness) - point-core sunflower"},
+      {"venn": [2,0,0,0], "ts": [2,2,2], "union": 8, "MIS": 80, "status": "MACHINE exact - pair-core sunflower"},
+      {"venn": [1,0,0,1], "ts": [1,1,2], "union": 9, "MIS": [78, 80], "status": "OPEN interval (verified 78 witness, delta upper 80)"}
+    ],
+    "moral": "pairwise overlap types do NOT determine the cap; Venn structure does. Sunflowers with disjoint petals are the only 3-cell structures beating 64 (they reach 80).",
+    "moral_correction_2026_07_11": "Pre-DOI audit correction (the 'moral' above is preserved verbatim as the session record, but its second sentence overclaims): the OPEN Venn (1,0,0,1) class (ts (1,1,2), union 9) has a verified 78-line witness, so it ALSO beats 64 and is not a sunflower. Correct statement: three classes beat 64 -- the two disjoint-petal sunflowers (exactly 80) and Venn (1,0,0,1) (cap in [78,80])."
+  },
+  "lp_barrier": {
+    "statement": "no family of valid occupancy inequalities with <= 109 positive-support cells each can prove alpha <= 288: uniform point n_A = 64/k is feasible, LP >= 31680/k >= 290.6",
+    "status": "PROVEN",
+    "consequence": "kappa/triples/localization/e8/slice/ladder cuts (support <= 35) give LP >= 905; a cut-based proof needs >= 110-cell inequalities"
+  },
+  "star_reduction": {
+    "statement": "every line lies in exactly 4 coordinate stars; star_x world == U11 world (10560 lines, 165 cells, no free cell pairs); hence alpha(U12) <= 3 * alpha(U11)",
+    "status": "PROVEN",
+    "witness_saturation": "the 288 slice witness meets every star in exactly 96 (machine-verified uniform)",
+    "jewel_reduction": "alpha(U11) <= 96 => alpha(U12) = 288 (odd lemma closed). alpha(U11) >= 96 already (star of witness). Pigeonhole: any 289-config contains a >= 97-line U11 config.",
+    "star_cuts_pass_barrier": "the 12 star cuts have 165-cell support (>= 110) and with cap 96 their covering LP gives exactly 288"
+  },
+  "open": "alpha(U11) <= 96 (equivalently: the last stretch of the odd lemma). Attack: KaMIS lower hunt for 97 + CP-SAT ladder on U11 with this session's cut library (kappa, 57-rigidity, W6/W7/W8 localization, sunflower-80, e7-64/e8-128)."
+}

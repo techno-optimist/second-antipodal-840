@@ -1,0 +1,29 @@
+{
+ "_doc": "Rotation certificate: a perfect pairing P of the 12 coordinates. scripts/verify_rotation.py applies the blockwise 45-degree rotation T_P (exact over Q(sqrt2), realized as the integer map h_i = g_i - g_j, h_j = g_i + g_j on each pair (i,j), which is sqrt(2) * T_P) to every witness line and proves the image lies in the integer A-union-W4 world and that all Grams are preserved exactly. Only the pairing is stored; the image composition is recomputed, never echoed.",
+ "pairing": [
+  [
+   0,
+   9
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   3,
+   4
+  ],
+  [
+   5,
+   11
+  ],
+  [
+   6,
+   7
+  ],
+  [
+   8,
+   10
+  ]
+ ]
+}

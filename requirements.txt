@@ -1,0 +1,9 @@
+# No third-party dependencies.
+#
+# The entire verification layer (scripts/verify_420.py, verify_rotation.py,
+# verify_novelty.py, selftest.py, witness.py) runs on the Python 3.9+
+# standard library alone: json, fractions, math.isqrt, itertools,
+# collections, subprocess, tempfile, pathlib.  All certified arithmetic is
+# exact (integers and fractions.Fraction); no floats on any decision path.
+#
+# Optional, for `make pdf` only: tectonic (https://tectonic-typesetting.github.io).

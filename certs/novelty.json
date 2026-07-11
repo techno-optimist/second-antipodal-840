@@ -1,0 +1,9 @@
+{
+ "_doc": "Novelty (non-isometry) certificate: parameters of the hypothesized family 'n_axes axis lines + n_blocks whole W4 cells on a block design over n_points points' which contains the known modular 420 (12 axes + 51 whole cells, 12 + 8*51 = 420). scripts/verify_novelty.py recomputes the witness |dot| histogram from certs/config420.json and proves BY EXACT COUNTING that no member of this family realizes it. All formula constants are re-derived from explicit cell computations, never assumed.",
+ "family": {
+  "n_points": 12,
+  "n_axes": 12,
+  "n_blocks": 51,
+  "block_size": 4
+ }
+}

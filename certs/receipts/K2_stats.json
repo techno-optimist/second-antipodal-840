@@ -1,0 +1,32 @@
+{
+  "_doc": "K2 grand mixed-alphabet d12 (d12-architect.md S3/K2)",
+  "n_vertices": 35784,
+  "alphabet_counts": {
+    "A": 12,
+    "W4": 3960,
+    "W2": 132,
+    "U": 31680
+  },
+  "m_edges": 40130904,
+  "predicate_validation_mismatches": 0,
+  "free_base_independent_324": true,
+  "degree_min": 22,
+  "degree_max": 4214,
+  "degree_mean": 2242.95,
+  "edges_by_alphabet_pair": {
+    "A-A": 0,
+    "A-W4": 0,
+    "A-W2": 264,
+    "A-U": 0,
+    "W4-W4": 126720,
+    "W4-W2": 23760,
+    "W4-U": 16410240,
+    "W2-W2": 0,
+    "W2-U": 0,
+    "U-U": 23569920
+  },
+  "target_MIS": 421,
+  "record_condition": "MIS >= 421 -> 842 points -> WORLD RECORD (record 841)",
+  "elapsed_s": 45.9,
+  "_note": "edges_by_alphabet_pair corrected: same-alphabet entries halved (sum == m_edges)."
+}

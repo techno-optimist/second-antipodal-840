@@ -1,0 +1,1 @@
+{"tag": "slice_only", "n_cells": 15, "n_vertices": 960, "n_edges": 7680, "status": "OPTIMAL", "objective": 288, "bound": 288.0, "wall_s": 2.169532537460327, "cell_ids": [13, 16, 31, 109, 119, 120, 298, 308, 309, 329, 333, 348, 351, 409, 488]}
