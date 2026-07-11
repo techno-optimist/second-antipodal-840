@@ -110,3 +110,8 @@ The full mixed conflict graph on 12 A + 132 W2 + 3,960 W4 + 31,680 U =
 
 No third-party dependencies (see `requirements.txt`). No floats on any
 decision path; displayed decimals use directed rounding.
+
+## DOI
+
+- This version: [10.5281/zenodo.21306850](https://doi.org/10.5281/zenodo.21306850)
+- All versions (concept): [10.5281/zenodo.21306849](https://doi.org/10.5281/zenodo.21306849)
