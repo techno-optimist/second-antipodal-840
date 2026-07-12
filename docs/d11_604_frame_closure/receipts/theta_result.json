@@ -1,0 +1,12 @@
+{
+  "n": 1328,
+  "m": 25088,
+  "theta_primal": 251.9155933509097,
+  "status": "optimal",
+  "solve_seconds": 671.6167669296265,
+  "solver_stats": {
+    "num_iters": 1275,
+    "solve_time": 666.283625791
+  },
+  "decision_241": "theta >= 241: SDP alone does not close; consider theta+ / symmetry reduction"
+}

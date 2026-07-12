@@ -1,0 +1,1266 @@
+{
+  "_doc": "B1 Bianchi micro-neighborhood scan (d11-architect.md S4/B1)",
+  "frame": "published orthonormal 3-frame on coords 8,9,10; 8 base axes",
+  "ledger_identity": "TOTAL = 8 base axes + |E_compat| + 8*P  (whole-cell)",
+  "WR_condition": "TOTAL >= 303  (published m4 = 302)",
+  "wave1_lesson": "K1/Round83: exposure far more destructive than designed; kill by whole-cell counting before any solver.",
+  "n_variants": 30,
+  "ranking_top": [
+    "m4_perfect_published",
+    "path7_hamilton",
+    "m4_plus_pair_share",
+    "m4_plus_2pair_share",
+    "m4_alt_labeling"
+  ],
+  "results": {
+    "m4_perfect_published": {
+      "pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 0,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m3_matching": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 42,
+      "E_internal_edges": 0,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 184,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1865,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1865,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 290,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m2_matching": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 30,
+      "E_internal_edges": 0,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 202,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 2174,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2174,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 278,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m1_matching": {
+      "pairs": [
+        [
+          0,
+          1
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 18,
+      "E_internal_edges": 0,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 220,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 2495,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2495,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 266,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "path2": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 30,
+      "E_internal_edges": 24,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 205,
+      "partial_cells": 10,
+      "partial_signlines": 40,
+      "support_conflict_edges": 2240,
+      "P_wholecell_packing": 28,
+      "W_wholecell_8P": 224,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2240,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 250,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "path3": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 42,
+      "E_internal_edges": 48,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 202,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 2174,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2174,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 278,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "path4": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 72,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 175,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1748,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1748,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 254,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "path5": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 96,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 184,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1865,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1865,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 290,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "path7_hamilton": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 90,
+      "E_internal_edges": 144,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "star2": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 30,
+      "E_internal_edges": 24,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 205,
+      "partial_cells": 15,
+      "partial_signlines": 60,
+      "support_conflict_edges": 2240,
+      "P_wholecell_packing": 28,
+      "W_wholecell_8P": 224,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2240,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 250,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "star3": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 42,
+      "E_internal_edges": 72,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 193,
+      "partial_cells": 20,
+      "partial_signlines": 80,
+      "support_conflict_edges": 2054,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2054,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 242,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "star4": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 144,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 193,
+      "partial_cells": 26,
+      "partial_signlines": 104,
+      "support_conflict_edges": 2054,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2054,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 242,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "star7_full": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 90,
+      "E_internal_edges": 504,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 184,
+      "partial_cells": 30,
+      "partial_signlines": 120,
+      "support_conflict_edges": 1928,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1928,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 242,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "triangle": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 42,
+      "E_internal_edges": 72,
+      "E_compat_subset": 18,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 205,
+      "partial_cells": 15,
+      "partial_signlines": 60,
+      "support_conflict_edges": 2240,
+      "P_wholecell_packing": 28,
+      "W_wholecell_8P": 224,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 2240,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 250,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "triangle_plus_pair": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 72,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 187,
+      "partial_cells": 15,
+      "partial_signlines": 60,
+      "support_conflict_edges": 1931,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1931,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 254,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "triangle_plus_2pair": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          5,
+          6
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 72,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 169,
+      "partial_cells": 15,
+      "partial_signlines": 60,
+      "support_conflict_edges": 1634,
+      "P_wholecell_packing": 27,
+      "W_wholecell_8P": 216,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1634,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 266,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "two_triangles": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 78,
+      "E_internal_edges": 144,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 142,
+      "partial_cells": 60,
+      "partial_signlines": 180,
+      "support_conflict_edges": 1280,
+      "P_wholecell_packing": 23,
+      "W_wholecell_8P": 184,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1280,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 222,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "c4": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 96,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 178,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1802,
+      "P_wholecell_packing": 26,
+      "W_wholecell_8P": 208,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1802,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 246,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "c5": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 120,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 163,
+      "partial_cells": 24,
+      "partial_signlines": 48,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 25,
+      "W_wholecell_8P": 200,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 238,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "c6": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 78,
+      "E_internal_edges": 144,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 148,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1352,
+      "P_wholecell_packing": 25,
+      "W_wholecell_8P": 200,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1352,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 250,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "c8_hamilton": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          0
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 102,
+      "E_internal_edges": 192,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 118,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 956,
+      "P_wholecell_packing": 22,
+      "W_wholecell_8P": 176,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 956,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 238,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m4_plus_pair_share": {
+      "pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 48,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m4_plus_2pair_share": {
+      "pairs": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 78,
+      "E_internal_edges": 96,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "k4": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 78,
+      "E_internal_edges": 288,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 178,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1802,
+      "P_wholecell_packing": 26,
+      "W_wholecell_8P": 208,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1802,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 246,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "k4_plus_2pair": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 102,
+      "E_internal_edges": 288,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 142,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1244,
+      "P_wholecell_packing": 24,
+      "W_wholecell_8P": 192,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1244,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 254,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "m4_alt_labeling": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 54,
+      "E_internal_edges": 0,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "5pair_bowtie_plus": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 96,
+      "E_compat_subset": 30,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 172,
+      "partial_cells": 5,
+      "partial_signlines": 20,
+      "support_conflict_edges": 1700,
+      "P_wholecell_packing": 26,
+      "W_wholecell_8P": 208,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1700,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 246,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    },
+    "6pair_prism": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          0,
+          4
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 78,
+      "E_internal_edges": 216,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 184,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1865,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1865,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 290,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "path3_plus_2pair": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 48,
+      "E_compat_subset": 54,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 166,
+      "partial_cells": 0,
+      "partial_signlines": 0,
+      "support_conflict_edges": 1568,
+      "P_wholecell_packing": 30,
+      "W_wholecell_8P": 240,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1568,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 302,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": true,
+      "verdict": "CLOSED_wholecell_exact"
+    },
+    "star3_plus_2pair": {
+      "pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "n_base_axes": 8,
+      "E_pool": 66,
+      "E_internal_edges": 72,
+      "E_compat_subset": 42,
+      "k_frame_axes_killed": 3,
+      "surviving_supports": 157,
+      "partial_cells": 20,
+      "partial_signlines": 80,
+      "support_conflict_edges": 1472,
+      "P_wholecell_packing": 25,
+      "W_wholecell_8P": 200,
+      "four_C4_structure_ok": true,
+      "n_conflicting_cell_pairs": 1472,
+      "n_C4_failures": 0,
+      "TOTAL_wholecell": 250,
+      "axis_survival_ok": true,
+      "TOTAL_exact_rigorous": false,
+      "verdict": "STAGE_DGX_mixing_open"
+    }
+  },
+  "staged_for_dgx": {
+    "m4_perfect_published": {
+      "metis": "arena/analysis/foundry_wave2/B1/staging/B1_m4_perfect_published_joint.metis",
+      "n": 1382,
+      "m": 25088,
+      "greedy_joint_MIS": 278,
+      "greedy_TOTAL": 286
+    },
+    "path7_hamilton": {
+      "metis": "arena/analysis/foundry_wave2/B1/staging/B1_path7_hamilton_joint.metis",
+      "n": 1382,
+      "m": 25088,
+      "greedy_joint_MIS": 294,
+      "greedy_TOTAL": 302
+    },
+    "m4_plus_pair_share": {
+      "metis": "arena/analysis/foundry_wave2/B1/staging/B1_m4_plus_pair_share_joint.metis",
+      "n": 1382,
+      "m": 25088,
+      "greedy_joint_MIS": 278,
+      "greedy_TOTAL": 286
+    },
+    "m4_plus_2pair_share": {
+      "metis": "arena/analysis/foundry_wave2/B1/staging/B1_m4_plus_2pair_share_joint.metis",
+      "n": 1382,
+      "m": 25088,
+      "greedy_joint_MIS": 278,
+      "greedy_TOTAL": 286
+    },
+    "m4_alt_labeling": {
+      "metis": "arena/analysis/foundry_wave2/B1/staging/B1_m4_alt_labeling_joint.metis",
+      "n": 1382,
+      "m": 25088,
+      "greedy_joint_MIS": 294,
+      "greedy_TOTAL": 302
+    }
+  }
+}

@@ -1,0 +1,68 @@
+parsed n=1328 m=25088
+(CVXPY) Jul 09 01:52:11 PM: Your problem has 25089 variables, 1763584 constraints, and 0 parameters.
+(CVXPY) Jul 09 01:52:11 PM: It is compliant with the following grammars: DCP, DQCP
+(CVXPY) Jul 09 01:52:11 PM: (If you need to solve this problem multiple times, but with different data, consider using parameters.)
+(CVXPY) Jul 09 01:52:11 PM: CVXPY will first compile your problem; then, it will invoke a numerical solver to obtain a solution.
+(CVXPY) Jul 09 01:52:11 PM: Your problem is compiled with the CPP canonicalization backend.
+(CVXPY) Jul 09 01:52:11 PM: Compiling problem (target solver=SCS).
+(CVXPY) Jul 09 01:52:11 PM: Reduction chain: Dcp2Cone -> CvxAttr2Constr -> ConeMatrixStuffing -> SCS
+(CVXPY) Jul 09 01:52:11 PM: Applying reduction Dcp2Cone
+(CVXPY) Jul 09 01:52:11 PM: Applying reduction CvxAttr2Constr
+(CVXPY) Jul 09 01:52:11 PM: Applying reduction ConeMatrixStuffing
+(CVXPY) Jul 09 01:52:11 PM: Applying reduction SCS
+(CVXPY) Jul 09 01:52:12 PM: Finished problem compilation (took 8.433e-01 seconds).
+(CVXPY) Jul 09 01:52:12 PM: Invoking solver SCS  to obtain a solution.
+(CVXPY) Jul 09 01:57:35 PM: Problem status: optimal
+(CVXPY) Jul 09 01:57:35 PM: Optimal value: 2.519e+02
+(CVXPY) Jul 09 01:57:35 PM: Compilation took 8.433e-01 seconds
+(CVXPY) Jul 09 01:57:35 PM: Solver (including time spent in interface) took 3.236e+02 seconds
+===============================================================================
+                                     CVXPY                                     
+                                     v1.8.2                                    
+===============================================================================
+-------------------------------------------------------------------------------
+                                  Compilation                                  
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+                                Numerical solver                               
+-------------------------------------------------------------------------------
+------------------------------------------------------------------
+	       SCS v3.2.11 - Splitting Conic Solver
+	(c) Brendan O'Donoghue, Stanford University, 2012
+------------------------------------------------------------------
+problem:  variables n: 25089, constraints m: 882456
+cones: 	  s: psd vars: 882456, ssize: 1
+settings: eps_abs: 1.0e-06, eps_rel: 1.0e-06, eps_infeas: 1.0e-07
+	  alpha: 1.50, scale: 1.00e-01, adaptive_scale: 1
+	  max_iters: 200000, normalize: 1, rho_x: 1.00e-06
+	  acceleration_lookback: 10, acceleration_interval: 10
+	  time_limit_secs: 2.70e+03
+lin-sys:  sparse-direct-amd-qdldl
+	  nnz(A): 26416, nnz(P): 0
+------------------------------------------------------------------
+ iter | pri res | dua res |   gap   |   obj   |  scale  | time (s)
+------------------------------------------------------------------
+     0| 4.91e+00  1.69e+04  8.09e+06  4.04e+06  1.00e-01  5.80e-01 
+   250| 1.72e+00  2.89e-02  7.89e-02  2.38e+02  1.00e-06  1.48e+02 
+   500| 4.22e-03  1.75e-06  2.13e-03  2.52e+02  1.00e-06  2.84e+02 
+   575| 2.96e-05  1.26e-06  1.08e-04  2.52e+02  1.00e-06  3.24e+02 
+------------------------------------------------------------------
+status:  solved
+timings: total: 3.24e+02s = setup: 1.92e-01s + solve: 3.23e+02s
+	 lin-sys: 9.64e+00s, cones: 3.04e+02s, accel: 3.38e+00s
+------------------------------------------------------------------
+objective = 251.913108
+------------------------------------------------------------------
+-------------------------------------------------------------------------------
+                                    Summary                                    
+-------------------------------------------------------------------------------
+dual solve: t=251.9130539583685 status=optimal in 324.5s
+lambda_max(J+Y_rounded) = 251.914695780
+verified Cholesky: ok=True shift=1.526e-05 err_bound=4.010e-10
+{
+  "theta_upper_certified": 251.91494750976562,
+  "alpha_upper": 251,
+  "alpha_lower": 240,
+  "statement": "240 <= alpha(restricted 1328-graph) <= 251; lower bound from the KaMIS/redumis 240-line independent sets (restricted_redumis.is), upper bound from this rational dual Lovasz-theta certificate with verified-Cholesky PSD check."
+}
+CERTIFICATE_WRITTEN

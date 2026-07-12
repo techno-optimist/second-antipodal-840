@@ -22,7 +22,7 @@ PYTHON ?= python3
 TEX     = second_antipodal_840.tex
 
 .PHONY: all verify selftest verify-witness verify-rotation verify-novelty \
-        verify-structure verify-u11 pdf clean
+        verify-structure verify-u11 verify-d11-closure pdf clean
 
 all: verify
 
@@ -52,6 +52,18 @@ verify-structure:
 ## exactly: alpha(U11) >= 98, refuting alpha(U11) <= 96.  Stdlib only.
 verify-u11:
 	$(PYTHON) scripts/verify_u11.py certs/u11_witness98.json certs/u11_witnesses97.json
+
+## verify-d11-closure (addendum, docs/d11_604_frame_closure/): the companion
+## d11 result — the Bianchi 604-frame's weight-4 restricted graph has
+## alpha = 240 (family caps at 302 lines = 604 points).  Recomputes the graph
+## anatomy + 240-witness independence exactly (stdlib) and re-checks the
+## rational Lovasz-theta dual certificate 240 <= alpha <= 251 (needs numpy,
+## the addendum's only third-party dependency).  The alpha = 240 SCIP receipt
+## ships under docs/d11_604_frame_closure/receipts/; rerun_alpha240.py
+## reproduces the solve (pyscipopt, or ortools CP-SAT assert-optimal).
+verify-d11-closure:
+	$(PYTHON) docs/d11_604_frame_closure/check_graph_sanity.py
+	$(PYTHON) docs/d11_604_frame_closure/check_theta_certificate.py
 
 ## selftest: adversarial check that corrupted certificates are REJECTED
 ## (and that the novelty chain does NOT "prove" the modular histogram novel).

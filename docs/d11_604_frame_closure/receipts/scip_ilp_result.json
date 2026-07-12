@@ -1,0 +1,11 @@
+{
+  "n": 1328,
+  "m": 25088,
+  "time_limit": 21600.0,
+  "status": "optimal",
+  "primal_best": 240.0,
+  "dual_bound": 240.0,
+  "gap": 0.0,
+  "closed": true,
+  "found_241": false
+}

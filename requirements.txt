@@ -7,3 +7,7 @@
 # exact (integers and fractions.Fraction); no floats on any decision path.
 #
 # Optional, for `make pdf` only: tectonic (https://tectonic-typesetting.github.io).
+#
+# Optional, for the d11 addendum only (docs/d11_604_frame_closure/):
+#   numpy                 — `make verify-d11-closure` theta-certificate PSD step
+#   pyscipopt or ortools  — rerun_alpha240.py (reproducing alpha = 240)

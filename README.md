@@ -130,6 +130,10 @@ The full mixed conflict graph on 12 A + 132 W2 + 3,960 W4 + 31,680 U =
 No third-party dependencies (see `requirements.txt`). No floats on any
 decision path; displayed decimals use directed rounding.
 
+## Addendum: d11 604-frame closure receipts
+
+- [`docs/d11_604_frame_closure/`](docs/d11_604_frame_closure/) — the companion d11 result: the Bianchi 604-point family (arXiv:2606.10402, antipodal = 302 lines per DOI 10.5281/zenodo.21285878) caps at exactly 604 points — alpha = 240 on its 1,328-vertex weight-4 restricted graph (SCIP branch-and-cut, gap 0), rationally-certified theta bracket 240 ≤ alpha ≤ 251, and the 30-variant neighborhood counting census (`make verify-d11-closure`; a pure-Boolean UNSAT certificate was attempted and did not complete — stated exactly there).
+
 ## DOI
 
 - All versions (concept): [10.5281/zenodo.21306849](https://doi.org/10.5281/zenodo.21306849)
