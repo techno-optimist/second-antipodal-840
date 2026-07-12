@@ -22,7 +22,7 @@ PYTHON ?= python3
 TEX     = second_antipodal_840.tex
 
 .PHONY: all verify selftest verify-witness verify-rotation verify-novelty \
-        verify-structure pdf clean
+        verify-structure verify-u11 pdf clean
 
 all: verify
 
@@ -45,6 +45,13 @@ verify-novelty:
 ## three core certificates above.
 verify-structure:
 	$(PYTHON) scripts/verify_structure.py
+
+## verify-u11 (v1.1): the answer to Problem 26 — rebuild the U11 witnesses
+## from certs/u11_witness98.json + certs/u11_witnesses97.json (cell + sign
+## descriptions only, no counts) and recompute every pairwise inner product
+## exactly: alpha(U11) >= 98, refuting alpha(U11) <= 96.  Stdlib only.
+verify-u11:
+	$(PYTHON) scripts/verify_u11.py certs/u11_witness98.json certs/u11_witnesses97.json
 
 ## selftest: adversarial check that corrupted certificates are REJECTED
 ## (and that the novelty chain does NOT "prove" the modular histogram novel).

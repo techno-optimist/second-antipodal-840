@@ -38,9 +38,9 @@ Lov\'asz $\vartheta$) is identified as such in the text and shipped with its
 receipt. This is the third note of an exact-certificate series
 \cite{RussellErdos26,RussellLines26}.}\\[3pt]
 {\normalsize ProjectForty2 --- CHRONOS agent}}
-\date{July 2026\\[2pt]{\small Zenodo: \href{https://doi.org/10.5281/zenodo.21306850}{doi:10.5281/zenodo.21306850}}}
-%%CHECK: DOI placeholder --- mint the Zenodo DOI at deposit time and bake it
-%%CHECK  into this \date line exactly as in the predecessor note.
+\date{July 2026 (v1.1)\\[2pt]{\small Zenodo, all versions:
+\href{https://doi.org/10.5281/zenodo.21306849}{doi:10.5281/zenodo.21306849};
+v1.0: \href{https://doi.org/10.5281/zenodo.21306850}{doi:10.5281/zenodo.21306850}}}
 
 \begin{document}
 \maketitle
@@ -93,7 +93,8 @@ certify $\alpha(U)\le 289$; and a star reduction
 $\alpha(U_{12})\le 3\,\alpha(U_{11})$ that passes the barrier and is
 exactly tight on the witness, reducing both the global closure and the
 record hunt to a single question in a world three times smaller: is
-$\alpha(U_{11})\le 96$? Finally, a $\vartheta$-certified
+$\alpha(U_{11})\le 96$? (Answered in the negative in the v1.1 postscript,
+Appendix~\ref{sec:postscript}.) Finally, a $\vartheta$-certified
 architecture sweep closes every enumerable frame family in dimensions $11$
 and $12$ far below the record thresholds and exposes a structural
 anti-correlation: the richer the frame, the thinner the weight-$4$ base it
@@ -1446,6 +1447,84 @@ used. \texttt{make selftest} feeds the checkers corrupted variants
 (perturbed vectors, deleted lines, doctored histograms, a wrong pairing,
 sign-flipped rotation blocks) and passes only if every one is rejected
 with the expected diagnostic.
+
+\section{Postscript (v1.1, July 12, 2026): Problem~\ref{prob:u11} is
+answered in the negative}\label{sec:postscript}
+
+Everything above this section is v1.0 as published --- theorems, solver
+labels and \textsc{(open)} markers unchanged. This dated postscript records
+what a subsequent large-scale computation settled, and what it did not.
+
+\begin{theorem}[$\alpha(U_{11})\ge98$]\label{thm:u11witness}
+The $U_{11}$ world contains an independent set of $98$ lines (and at least
+five further, pairwise-distinct independent sets of $97$ lines). Hence
+$\alpha(U_{11})\ge98>96$: Problem~\ref{prob:u11} is answered in the
+negative, and the twelve star cuts cannot close $\alpha(U_{12})=288$.
+\textsc{(machine}: witnesses shipped, verified by
+\texttt{make verify-u11}\textsc{)}
+\end{theorem}
+
+The witnesses were found by independent KaMIS lotteries on an exactly
+generated $U_{11}$ conflict graph whose generator was validated against
+this note's own structure facts before any search ran: $165$ cells,
+$10{,}560$ lines, cell-pair census $4{,}620/6{,}930/1{,}980$ at overlaps
+$r=5/6/7$ with exactly $256/128/512$ conflict edges per pair
+(Lemma-level censuses of Section~\ref{sec:odd}), uniform degree $584$,
+$3{,}083{,}520$ edges in total. The certificates
+(\texttt{certs/u11\_witness98.json}, \texttt{certs/u11\_witnesses97.json})
+store only raw line descriptions --- a cell $3$-subset plus a canonical
+even sign pattern per line, no counts, no verdicts; the stdlib checker
+\texttt{scripts/verify\_u11.py} rebuilds every integer representative
+($\pm1$ on the $8$-support, norm$^2=8$) and recomputes every pairwise
+inner product exactly (conflict iff the signed shared sum on the support
+overlap has absolute value $\ge5$, i.e.\ $4\langle g,g'\rangle^2>64$ ---
+the predicate of Section~\ref{sec:star} verbatim), in the same
+recompute-never-echo discipline as the v1.0 checkers; the adversarial
+selftest battery grows to $26$ cases accordingly.
+
+\emph{Upper side, honestly labeled.} A CP-SAT optimization on the same
+graph was budget-terminated at status \textsc{feasible} with incumbent
+$98$ and internal dual bound $144$. That bound is \emph{solver-reported
+and uncertified} --- no \textsc{optimal} status, no exact dual
+certificate, so unlike the receipts of v1.0 it does not even reach
+receipt grade. The honest state of knowledge is
+\[
+98\;\le\;\alpha(U_{11})\;\le\;144\quad\text{(upper end solver-reported,
+uncertified)}.
+\]
+
+\emph{Consequences for the frontier.} Theorem~\ref{thm:star} is
+unaffected, but the hypothesis of its item (iv) is now known to be false,
+so the star route to global closure is dead and the reduction weakens to
+$\alpha(U_{12})\le3\cdot98=294$. Item (v)'s necessary condition for any
+$842$-point record is now known to be \emph{satisfiable}: $\ge97$-line
+$U_{11}$ configurations exist. The record question therefore turns
+entirely on extendability --- and there the evidence is sharply negative.
+Each of the six lottery-optimal stars was mapped back into $U_{12}$
+(exact inverse of the star restriction of Theorem~\ref{thm:star}(i),
+every image re-verified as a $U_{12}$ independent set) and its full
+compatible remainder computed \emph{exactly} (the remainders are small
+enough that no solver is involved): two of the $97$s extend by $0$ lines,
+two by $1$, one by $3$, and the $98$-line witness by $1$ --- best total
+$100$ lines in $U_{12}$, against the $289$ a record needs. The shipped
+$288$-line witness behaves in the opposite way: its (only-$96$-line)
+star leaves a $224$-line compatible remainder that contains its entire
+$192$-line complement. \emph{Lottery-optimal stars are maximally jammed:
+star density trades against global extendability.} (These six extension
+computations are exact session results, reported here; they are not part
+of this repository's certificate set.)
+
+\emph{What remains open.} All empirical evidence continues to point at
+$\alpha(U_{12})=288$: six independent KaMIS lotteries on the full
+$23{,}569{,}920$-edge $U_{12}$ conflict graph each landed on exactly
+$288$; a CP-SAT optimize warm-started at the $288$-line witness never
+improved it; the exact ladder of Theorem~\ref{thm:ladder} and every orbit
+extension tested net negative. But with the star route closed and the
+barrier of Theorem~\ref{thm:barrier} still standing,
+$\alpha(U_{12})=288$ --- and with it the odd-overlap lemma and the global
+$420$-line cap --- remains \emph{open}. Problem~\ref{prob:u11} as posed
+is settled; the frontier question it leaves behind is: \emph{does any
+$\ge97$-line $U_{11}$ configuration extend to $289$ lines in $U_{12}$?}
 
 \begin{thebibliography}{99}
 

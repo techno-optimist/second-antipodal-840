@@ -46,6 +46,19 @@ Battery (checker <- corruption -> required diagnostic):
        the packing precondition must reject it
        BEFORE any novelty verdict              -> "not a kissing configuration"
 
+  verify_u11.py (v1.1)
+    D1 pristine u11 witnesses                  -> accepted, "VERIFIED" + the
+                                                  Problem-26 negative verdict
+    D2 one U11 sign flipped (parity-breaking)  -> "even sign class"
+    D3 two U11 signs flipped (parity-preserving,
+       geometry-breaking; found by determinis-
+       tic search, must conflict with another
+       witness line)                           -> "VIOLATION"/"violate"
+    D4 duplicated U11 line                     -> "duplicate line"
+    D5 deleted U11 line (97 remain: alpha <= 96
+       still refuted, but the v1.1 claim gate
+       alpha(U11) >= 98 must fire)             -> "needs a 98-line witness"
+
 C2 exists specifically to catch "always shout contradiction" regressions of
 the counting chain: a checker that proves novelty of the modular histogram
 itself is unsound.  Every corruption must exit nonzero AND print the expected
@@ -71,6 +84,7 @@ import verify_novelty  # for the C2 soundness check (module-level call)
 WITNESS = json.loads((CERTS / "config420.json").read_text())
 ROTATION = json.loads((CERTS / "rotation.json").read_text())
 NOVELTY = json.loads((CERTS / "novelty.json").read_text())
+U11_98 = json.loads((CERTS / "u11_witness98.json").read_text())
 FIRST_U = next(i for i, l in enumerate(WITNESS["lines"]) if l["type"] == "U")
 
 passed = failed = 0
@@ -110,6 +124,45 @@ def mutated_witness(mutate) -> str:
     w = json.loads(json.dumps(WITNESS))
     mutate(w)
     return tmp_json(w)
+
+
+def mutated_u11(mutate) -> str:
+    w = json.loads(json.dumps(U11_98))
+    mutate(w)
+    return tmp_json(w)
+
+
+def u11_vec(rec) -> tuple:
+    """Integer representative of a U11 cert line (mirrors verify_u11)."""
+    g = [0] * 11
+    support = [i for i in range(11) if i not in rec["cell"]]
+    for i, s in zip(support, rec["signs"]):
+        g[i] = s
+    return tuple(g)
+
+
+def u11_conflicting_double_flip():
+    """Deterministic search: first (line index, sign pos pair) whose double
+    flip keeps the line canonical + even but conflicts with another witness
+    line (and duplicates none), so ONLY the packing gate can catch it."""
+    lines = U11_98["lines"]
+    vecs = [u11_vec(r) for r in lines]
+    for i, rec in enumerate(lines):
+        for p in range(1, 8):          # never touch signs[0]: stay canonical
+            for q in range(p + 1, 8):
+                cand = json.loads(json.dumps(rec))
+                cand["signs"][p] *= -1
+                cand["signs"][q] *= -1
+                v = u11_vec(cand)
+                if any(v == w for w in vecs):
+                    continue           # would trip the duplicate gate instead
+                for j, w in enumerate(vecs):
+                    if j == i:
+                        continue
+                    dp = sum(a * b for a, b in zip(v, w))
+                    if 4 * dp * dp > 64:
+                        return i, p, q
+    raise AssertionError("no conflicting double flip found in the 98-witness")
 
 
 def main() -> int:
@@ -228,6 +281,34 @@ def main() -> int:
                   "verify_novelty.py",
                   [str(CERTS / "novelty.json"), mutated_witness(a2)],
                   ("not a kissing configuration",))
+
+    print("verify_u11.py battery (v1.1)")
+    code, out = run("verify_u11.py")
+    check("D1 pristine u11 witnesses accepted",
+          code == 0 and "VERIFIED" in out and "NEGATIVE" in out, out)
+
+    def d2(w):
+        w["lines"][0]["signs"][1] *= -1
+    expect_reject("D2 single sign flip -> parity gate", "verify_u11.py",
+                  [mutated_u11(d2)], ("even sign class",))
+
+    li, p, q = u11_conflicting_double_flip()
+
+    def d3(w):
+        w["lines"][li]["signs"][p] *= -1
+        w["lines"][li]["signs"][q] *= -1
+    expect_reject("D3 double sign flip -> packing violation", "verify_u11.py",
+                  [mutated_u11(d3)], ("VIOLATION", "violate"))
+
+    def d4(w):
+        w["lines"][-1] = json.loads(json.dumps(w["lines"][0]))
+    expect_reject("D4 duplicated line", "verify_u11.py",
+                  [mutated_u11(d4)], ("duplicate line",))
+
+    def d5(w):
+        w["lines"].pop()
+    expect_reject("D5 deleted line -> the >= 98 claim gate", "verify_u11.py",
+                  [mutated_u11(d5)], ("needs a 98-line witness",))
 
     print(f"selftest: {passed} passed, {failed} failed")
     return 1 if failed else 0

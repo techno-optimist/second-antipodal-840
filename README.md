@@ -47,11 +47,26 @@ no verdicts** (recompute, never echo).
    star reduction α(U12) ≤ 3·α(U11)), and U11-world sanity (165 cells,
    10,560 lines, no free cell pairs).
 
+5. **U11 witnesses — v1.1, Problem 26 answered in the negative**
+   (`make verify-u11`): a 98-line independent set in the U11 world
+   (`certs/u11_witness98.json`) plus five independent 97-line witnesses
+   (`certs/u11_witnesses97.json`), each stored as raw line descriptions only
+   (cell 3-subset + canonical even sign pattern). The stdlib checker rebuilds
+   every integer representative (±1 on the 8-support, norm² = 8) and
+   recomputes all pairwise inner products exactly (conflict iff the signed
+   shared sum on the support overlap is ≥ 5, i.e. 4⟨g,g′⟩² > 64), plus the
+   size and cell census: **α(U11) ≥ 98**, refuting the note's headline open
+   problem α(U11) ≤ 96 (Problem 26). The companion CP-SAT upper bound 144 is
+   solver-reported and uncertified: 98 ≤ α(U11) ≤ 144.
+
 Honest scope: these checkers certify the witness, its slice-cap, its
-novelty, and the local structure facts. They do NOT certify α(U-world) = 288
+novelty, the local structure facts, and (v1.1) the U11 witnesses answering
+Problem 26 in the negative. They do NOT certify α(U-world) = 288
 or the global optimality ladder (CP-SAT levels 0–3 exact, level ≥ 4
 searched); see the note's text for the exact ladder statement, the LP
-barrier theorem, and the star reduction to the open problem α(U11) ≤ 96.
+barrier theorem, the star reduction, and the v1.1 postscript (star-jam
+observation, 98 ≤ α(U11) ≤ 144 with the uncertified upper end, and the
+weakened 3-star bound α(U12) ≤ 294; α(U12) = 288 remains open).
 Solver receipts (CP-SAT ladder, θ/ILP sweep verdicts) ship under
 `certs/receipts/` and are labeled as solver results, not stdlib-recomputable
 certificates.
@@ -61,7 +76,8 @@ certificates.
 ```
 make verify            # the three core exact checkers (stdlib only, ~30 s)
 make verify-structure  # the odd-overlap-section MACHINE facts (~5 s)
-make selftest          # adversarial battery: 21 corruption/soundness cases
+make verify-u11        # v1.1: alpha(U11) >= 98 witnesses (~1 s)
+make selftest          # adversarial battery: 26 corruption/soundness cases
 make pdf               # typeset the note (needs tectonic)
 ```
 
@@ -71,6 +87,8 @@ make pdf               # typeset the note (needs tectonic)
 certs/config420.json   the witness: 420 line descriptions, nothing else
 certs/rotation.json    the coordinate pairing, nothing else
 certs/novelty.json     the four family parameters, nothing else
+certs/u11_witness98.json    v1.1: the 98-line U11 witness, lines only
+certs/u11_witnesses97.json  v1.1: five 97-line U11 witnesses, lines only
 certs/receipts/        solver receipts (NOT stdlib-recomputable):
                          result_slice_only.json, level2.json, level3.json
                            — CP-SAT OPTIMAL receipts, ladder levels 0/2/3
@@ -87,6 +105,7 @@ scripts/verify_420.py  packing + counts checker
 scripts/verify_rotation.py  Q(sqrt2) isometry + A∪W4 membership checker
 scripts/verify_novelty.py   counting-theorem checker
 scripts/verify_structure.py odd-overlap-section MACHINE-facts checker
+scripts/verify_u11.py  v1.1 U11-witness checker (alpha(U11) >= 98)
 scripts/selftest.py    corruption battery (must all be REJECTED)
 scripts/oddlemma/      the lemma-hunt exact toolkit (verbatim session
                        scripts): uw.py (predicate + exact MIS B&B),
@@ -113,5 +132,7 @@ decision path; displayed decimals use directed rounding.
 
 ## DOI
 
-- This version: [10.5281/zenodo.21306850](https://doi.org/10.5281/zenodo.21306850)
 - All versions (concept): [10.5281/zenodo.21306849](https://doi.org/10.5281/zenodo.21306849)
+- v1.0: [10.5281/zenodo.21306850](https://doi.org/10.5281/zenodo.21306850)
+- v1.1 adds the postscript answering Problem 26 in the negative
+  (α(U11) ≥ 98, witnesses + checker shipped; see `make verify-u11`)
